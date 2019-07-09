@@ -1,0 +1,18 @@
+[backends]
+  [backends.pihole]
+    [backends.pihole.servers.1]
+    url = "http://192.168.1.108:6080"
+  [backends.jellyfin]
+    [backends.jellyfin.servers.1]
+    url = "http://192.168.1.239:8096"
+
+[frontends]
+  [frontends.pihole]
+  backend = "pihole"
+    [frontends.pihole.routes.domain]
+    rule = "Host:pihole.home.smurfpandey.me;AddPrefix:/admin/"
+
+  [frontends.jellyfin]
+  backend = "jellyfin"
+    [frontends.jellyfin.routes.domain]
+    rule = "Host:media.home.smurfpandey.me"
