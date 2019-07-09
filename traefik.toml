@@ -1,0 +1,34 @@
+logLevel = "INFO"                                                                
+                                                                                 
+defaultEntryPoints = ["http", "https"]                                           
+                                                                                 
+[entryPoints]                                                                    
+  [entryPoints.http]                                                             
+  address = ":80"                                                                
+    [entryPoints.http.redirect]                                                  
+    entryPoint = "https"                                                         
+  [entryPoints.https]                                                            
+  address = ":443"                                                               
+    [entryPoints.https.tls]                                                      
+                                                                                 
+################################################################                 
+# File configuration backend                                                     
+################################################################                 
+# Enable file configuration backend                                              
+# Optional                                                                       
+[file]                                                                           
+  filename = "servers.toml"                                                      
+# Enable watch file changes                                                      
+  watch = true                                                                   
+                                                                                 
+[acme]                                                                           
+  entryPoint = "https"                                                           
+  storage = "acme.json"                                                          
+  acmeLogging = true                                                             
+  [acme.dnsChallenge]                                                            
+  provider = "cloudflare"                                                        
+                                                                                 
+  [[acme.domains]]                                                               
+  main = "*.home.smurfpandey.me"                                                 
+  sans = ["home.smurfpandey.me"]                                                 
+                                                                                 
