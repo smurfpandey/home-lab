@@ -5,6 +5,9 @@
   [backends.jellyfin]
     [backends.jellyfin.servers.1]
     url = "http://192.168.1.239:8096"
+  [backends.rpi-monitor]
+    [backends.rpi-monitor.servers.1]
+    url = "http://192.168.1.108:8888"
 
 [frontends]
   [frontends.pihole]
@@ -16,3 +19,8 @@
   backend = "jellyfin"
     [frontends.jellyfin.routes.domain]
     rule = "Host:media.home.smurfpandey.me"
+  
+  [frontends.rpi-monitor]
+  backend = "rpi-monitor"
+    [frontends.rpi-monitor.routes.domain]
+    rule = "Host:monitor.home.smurfpandey.me"
