@@ -33,20 +33,22 @@ services:
       traefik.port: "9000"
 
   firefly_iii_app:
-    environment:
-      - FF_DB_HOST=firefly_iii_db
-      - FF_DB_NAME=firefly
-      - FF_DB_USER=firefly
-      - FF_DB_PASSWORD=firefly
-      - FF_APP_KEY=${FIREFLY_APP_KEY}
-      - FF_APP_ENV=local
-      - FF_DB_CONNECTION=pgsql
-      - TZ=Asia/Kolkata
-      - APP_LOG_LEVEL=debug
-      - APP_DEBUG=true
-      - APP_URL=https://firefly.home.smurfpandey.me
-      - TRUSTED_PROXIES=**
-    image: jc5x/firefly-iii:release-4.7.17-arm
+    environment:                                       
+      - DB_HOST=firefly_iii_db                         
+      - DB_PORT=5432                                   
+      - DB_DATABASE=firefly                            
+      - DB_USERNAME=firefly                            
+      - DB_PASSWORD=firefly                            
+      - APP_KEY=${FIREFLY_APP_KEY}
+      - APP_ENV=local                                  
+      - DB_CONNECTION=pgsql                            
+      - TZ=Asia/Kolkata                                
+      - APP_LOG_LEVEL=debug                            
+      - APP_DEBUG=true                                 
+      - APP_URL=https://firefly.home.smurfpandey.me    
+      - TRUSTED_PROXIES=**                             
+    image: jc5x/firefly-iii:release-4.8.1-arm          
+    restart: on-failure                                
     links:
       - firefly_iii_db
     labels:
@@ -63,6 +65,7 @@ services:
         type: volume
     container_name: firefly_iii
   firefly_iii_db:
+    restart: on-failure
     environment:
       - POSTGRES_PASSWORD=firefly
       - POSTGRES_USER=firefly
