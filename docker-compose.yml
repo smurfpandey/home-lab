@@ -80,7 +80,27 @@ services:
       traefik.frontend.rule: "Host:home.smurfpandey.me"
     volumes:
       - $PWD/heimdall:/config
-
+      
+  jellyfin:
+    image: linuxserver/jellyfin:arm32v7-latest
+    container_name: jellyfin
+    ports:
+      - "1900:1900/udp"  #For UPnP to work
+      - "8096:8096/tcp"
+    labels:      
+      traefik.enabled: false
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+      - UMASK_SET=022 #optional
+    volumes:
+      - /mnt/mediahub/jellyfin-config:/config
+      - /mnt/mediahub/Series:/data/tvshows
+      - /mnt/mediahub/Movies:/data/movies
+    restart: on-failure
+    network_mode: host #For UPnP to work
+    
 volumes:
   firefly_iii_db:
   firefly_iii_export:
