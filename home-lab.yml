@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: yes
+  roles:
+    - { role: 'cron-jobs' }
+
+  tasks:
+  - name: Congratulations!
+    debug:
+      msg:
+        - "Your home-lab is ready now!"

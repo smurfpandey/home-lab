@@ -1,0 +1,9 @@
+- name: Create secrets directory /opt/secrets
+  file:
+    path: "{{ credentials_folder }}"
+    state: directory
+
+- name: Create credentials file update-gcloud-firewall
+  template:
+    src: "{{ gcloud_credentials_update_firewall_filename }}.j2"
+    dest: "{{ credentials_folder }}/{{ gcloud_credentials_update_firewall_filename }}"
