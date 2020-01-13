@@ -1,3 +1,8 @@
+- name: Create app directory /opt/jobs
+  file:
+    path: "{{ app_folder }}"
+    state: directory
+
 - name: Create secrets directory /opt/secrets
   file:
     path: "{{ credentials_folder }}"
@@ -7,3 +12,8 @@
   template:
     src: "{{ gcloud_credentials_update_firewall_filename }}.j2"
     dest: "{{ credentials_folder }}/{{ gcloud_credentials_update_firewall_filename }}"
+
+- name: Template docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ app_folder }}/docker-compose.yml"

@@ -7,7 +7,7 @@ docker-compose run --rm control-machine site.yml -i hosts.ini --ask-pass --ask-v
 ```
 
 ```
-docker-compose run --rm --entrypoint "ansible-vault encrypt_string  --stdin-name gcloud_credentials" control-machine
+docker-compose run --rm --entrypoint "ansible-vault encrypt_string --stdin-name gcloud_credentials" control-machine
 ```
 
 ```

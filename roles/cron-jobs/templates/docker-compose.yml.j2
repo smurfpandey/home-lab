@@ -1,0 +1,23 @@
+version: '3.2'
+
+services:
+  image-desc-bot: # Twitter bot which posts a image from from Wikimedia, and captions them using AI services.
+    container_name: image-desc-bot
+    image: smurfpandey/image-desc-bot:latest
+    volumes:
+      - {{ credentials_folder }}:/keys
+    environment:
+      - IDB_HEALTHCHECK_URL={{ idb_healthcheck_url }}
+      - IDB_TWITTER_CONSUMER_KEY={{ idb_twitter_consumer_key }}
+      - IDB_TWITTER_CONSUMER_SECRET={{ idb_twitter_consumer_secret }}
+      - IDB_TWITTER_ACCESS_TOKEN={{ idb_twitter_access_token }}
+      - IDB_TWITTER_ACCESS_TOKEN_SECRET={{ idb_twitter_access_token_secret }}
+      - IDB_GOOGLE_COMPUTER_VISION=false
+      - GOOGLE_APPLICATION_CREDENTIALS={{ idb_google_application_credentials }}
+      - IDB_MICROSOFT_COMPUTER_VISION=true
+      - IDB_MICROSOFT_COMPUTER_VISION_API_KEY={{ idb_microsoft_computer_vision_API_key }}
+      - IDB_MICROSOFT_COMPUTER_VISION_API_ENDPOINT={{ idb_microsoft_computer_vision_API_ENDPOINT }}
+      - IDB_AWS_ACCESS_KEY={{ idb_aws_access_key }}
+      - IDB_AWS_SECRET_KEY={{ idb_aws_secret_key }}
+      - SENTRY_DSN={{ idb_sentry_dsn }}
+      - SENTRY_ENVIRONMENT=production
