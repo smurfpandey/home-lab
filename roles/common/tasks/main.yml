@@ -1,0 +1,4 @@
+- name: Create secrets directory /opt/secrets
+  file:
+    path: "{{ secrets_folder }}"
+    state: directory

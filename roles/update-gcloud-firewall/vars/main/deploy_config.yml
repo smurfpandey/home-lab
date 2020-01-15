@@ -1,5 +1,4 @@
 # Variables required by update-gcloud-firewall service
-
 gcloud_credentials_update_firewall_filename: update-gcloud-firewall.json
 gcloud_credentials_update_firewall: !vault |
           $ANSIBLE_VAULT;1.1;AES256

@@ -5,7 +5,7 @@ services:
     container_name: image-desc-bot
     image: smurfpandey/image-desc-bot:latest
     volumes:
-      - {{ credentials_folder }}:/keys
+      - {{ secrets_folder }}/{{ gcloud_credentials_filename }}:{{ idb_google_application_credentials }}
     environment:
       - IDB_HEALTHCHECK_URL={{ idb_healthcheck_url }}
       - IDB_TWITTER_CONSUMER_KEY={{ idb_twitter_consumer_key }}
@@ -17,7 +17,9 @@ services:
       - IDB_MICROSOFT_COMPUTER_VISION=true
       - IDB_MICROSOFT_COMPUTER_VISION_API_KEY={{ idb_microsoft_computer_vision_API_key }}
       - IDB_MICROSOFT_COMPUTER_VISION_API_ENDPOINT={{ idb_microsoft_computer_vision_API_ENDPOINT }}
+      - IDB_AWS_COMPUTER_VISION=true
       - IDB_AWS_ACCESS_KEY={{ idb_aws_access_key }}
       - IDB_AWS_SECRET_KEY={{ idb_aws_secret_key }}
       - SENTRY_DSN={{ idb_sentry_dsn }}
       - SENTRY_ENVIRONMENT=production
+      - SUMOLOGIC_LOG_ENDPOINT={{ sumologic_log_endpoint }}

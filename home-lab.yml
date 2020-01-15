@@ -2,7 +2,10 @@
 - hosts: all
   become: yes
   roles:
+    - { role: 'common' }
     - { role: 'cron-jobs' }
+    - { role: 'image-desc-bot' }
+    - { role: 'update-gcloud-firewall' }
 
   tasks:
   - name: Congratulations!
