@@ -1,0 +1,11 @@
+version: '3.2'
+
+services:
+  {{ app_name }}: # Script to whitelist home IP address in Google Cloud firewall.
+    container_name: {{ app_name }}
+    image: {{ docker_image }}
+    volumes:
+      - {{ secrets_folder }}/{{ gcloud_credentials_filename }}:{{ google_application_credentials }}
+    environment:
+      - HEALTH_CHECK_URL={{ healthcheck_url }}
+      - GOOGLE_APPLICATION_CREDENTIALS={{ google_application_credentials }}

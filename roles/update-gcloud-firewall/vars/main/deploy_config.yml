@@ -1,6 +1,10 @@
+app_name: update-gcloud-firewall
+app_folder: "{{ jobs_folder }}/{{ app_name }}"
+docker_image: "smurfpandey/{{ app_name }}:latest"
+
 # Variables required by update-gcloud-firewall service
-gcloud_credentials_update_firewall_filename: update-gcloud-firewall.json
-gcloud_credentials_update_firewall: !vault |
+gcloud_credentials_filename: gcloud-update-firewall.json
+gcloud_credentials: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           63646438623935643634393336613735626234313232306265646162643735303030636336313061
           3636363961643538326230646337363932363833643734660a316431663430343336663235653335

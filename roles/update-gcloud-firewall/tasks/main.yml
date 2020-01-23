@@ -1,4 +1,28 @@
-- name: Create credentials file update-gcloud-firewall
+- name: Create app directory in /opt/jobs
+  file:
+    path: "{{ app_folder }}"
+    state: directory
+
+- name: Create Google Cloud credentials file
   template:
-    src: "{{ gcloud_credentials_update_firewall_filename }}.j2"
-    dest: "{{ secrets_folder }}/{{ gcloud_credentials_update_firewall_filename }}"
+    src: "{{ gcloud_credentials_filename }}.j2"
+    dest: "{{ secrets_folder }}/{{ gcloud_credentials_filename }}"
+
+- name: Create docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ app_folder }}/docker-compose.yml"
+
+- name: Create start script
+  template:
+    src: start-job.sh.j2
+    dest: "{{ app_folder }}/start-job.sh"
+    mode: 'a+x'
+
+- name: Create cronjob for daily execution
+  cron:
+    name: Start UpdateGCloudFirewall service
+    cron_file: homelab-UpdateGCloudFirewall
+    minute: "*/15"
+    user: pi
+    job: "{{ app_folder }}/start-job.sh"

@@ -8,7 +8,6 @@
     src: "{{ gcloud_credentials_filename }}.j2"
     dest: "{{ secrets_folder }}/{{ gcloud_credentials_filename }}"
 
-
 - name: Create docker-compose.yml
   template:
     src: docker-compose.yml.j2
