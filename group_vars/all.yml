@@ -3,5 +3,10 @@ jobs_folder: /opt/jobs
 lab_folder: /opt/home-lab
 docker_compose_binary: /usr/local/bin/docker-compose
 influxdb_port: 8086
+influxdb_opentsdb_port: 4242
+influxdb_hostname: 'influxdb.home.smurfpandey.me'
 chronograf_port: 5087
 traefik_network_name: proxy
+netdata_store_name: netdatadb
+netdata_default_port: 19999
+

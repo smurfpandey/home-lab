@@ -6,6 +6,7 @@
   vars:
     app_root: '/opt'
   roles:
+    - { role: 'base-requirements' }
     - { role: 'common' }
     - { role: 'cron-jobs' }
     - { role: 'image-desc-bot' }
@@ -20,4 +21,6 @@
     data_root: '/mnt/mediahub/apps'
     app_root: '/opt'
   roles:
-    - { role: 'influxdb' }
+    - { role: 'base-requirements' }
+    - { role: 'influxdb', tags: 'influxdb' }
+    - { role: 'netdata', tags: 'netdata' }

@@ -1,0 +1,29 @@
+# netdata configuration
+
+# global netdata configuration
+[global]
+	run as user = netdata
+	update every = 5
+
+[web]
+	web files owner = root
+	web files group = root
+	default port = {{ netdata_default_port }}
+	bind to = *
+
+[plugins]
+	# PATH environment variable = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+	# PYTHONPATH environment variable =
+	# tc = yes
+	# idlejitter = yes
+	# proc = yes
+	# diskspace = yes
+	# cgroups = yes
+	# checks = no
+	# enable running new plugins = yes
+	# check for new plugins every = 60
+	# apps = yes
+	# node.d = yes
+	# charts.d = yes
+	# python.d = yes
+	# fping = yes

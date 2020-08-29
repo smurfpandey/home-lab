@@ -1,0 +1,32 @@
+---
+
+# setup packagecloud apt repository
+- name: Add netdata GPG key to apt-key
+  apt_key:
+    url: https://packagecloud.io/netdata/netdata/gpgkey
+    state: present
+
+- name: Add netdata apt repository
+  apt_repository:
+    repo: deb [arch=amd64] https://packagecloud.io/netdata/netdata/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} main
+    state: present
+    filename: netdata
+  register: netdata_repo
+
+- name: Update apt repository
+  apt:
+    update_cache: true
+  when: netdata_repo.changed
+
+- name: Install netdata apt package
+  apt:
+    pkg: netdata
+    state: present
+    install_recommends: no
+
+- name: Replace default config file
+  template:
+    src: netdata.conf.j2
+    dest: "{{ netdata_config_file }}"
+  notify: restart netdata
+  become: true

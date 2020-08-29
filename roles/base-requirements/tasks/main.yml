@@ -1,0 +1,21 @@
+---
+
+- name: Log where are we running
+  debug:
+    msg: "The distro is: {{ ansible_distribution|lower }} and the version name is: {{ ansible_distribution_release }}"
+
+- name: Install common packages
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg2
+      - software-properties-common
+      - libffi-dev
+      - python3-pip
+      - ntp
+      - debian-archive-keyring
+    allow_unauthenticated: true
+    install_recommends: no
+    state: present
