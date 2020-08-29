@@ -1,0 +1,21 @@
+influxdb_user_username: "influxdb"
+influxdb_user_groupname: "influxdb"
+influxdb_user_uid: ~
+influxdb_user_gid: ~
+
+influxdb_app_directory: '{{ app_root }}/influxdb'
+influxdb_data_directory: '{{ data_root }}/influxdb'
+influxdb_image_tag: 'arm32v7/influxdb:1.8.1'
+influxdb_service_name: 'influxdb'
+influxdb_admin_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          66643136663865303536663230623534316231366564343063633262356466373466373434393634
+          3037353134623234656430643031356463646466636366370a323764633563623161333530343639
+          66346162393730646365306639663465326533393036393235623935663732666166623531623937
+          3636386334313434340a383139376236343665393531333739383234666462626564316530653934
+          64303533376462663765653637326237353630633231343435386534306566663462
+
+chronograf_app_directory: '{{ app_root }}/chronograf'
+chronograf_data_directory: '{{ data_root }}/chronograf'
+chronograf_image_tag: 'arm32v7/chronograf:1.8.4'
+chronograf_service_name: 'chronograf'

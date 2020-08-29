@@ -1,4 +1,11 @@
-control-machine:
-  image: smurfpandey/ansible-cm
-  volumes:
-    - .:/ansible/playbooks
+version: '3.2'
+
+services:
+  control-machine:
+    image: smurfpandey/ansible-cm:latest
+    environment:
+      SUDO_PASS: ${SUDO_PASS}
+      VAULT_PASS: ${ANSIBLE_VAULT_PASS}
+    volumes:
+      - .:/ansible/playbooks
+      - ~/.ssh/id_rsa:/tmp/.ssh/id_rsa:ro

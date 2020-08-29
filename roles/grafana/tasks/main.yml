@@ -1,0 +1,71 @@
+---
+
+# Create user & group to run grafana server
+- name: Ensure grafana group is created
+  become: yes
+  group:
+    name: "{{ grafana_user_groupname }}"
+    gid: "{{ omit if grafana_user_gid is none else grafana_user_gid }}"
+    state: present
+  register: grafana_group
+
+- name: Set grafana Group GID Variable
+  set_fact:
+    grafana_user_gid: "{{ grafana_group.gid }}"
+
+- name: Ensure grafana user is created
+  user:
+    name: "{{ grafana_user_username }}"
+    uid: "{{ omit if grafana_user_uid is none else grafana_user_uid }}"
+    state: present
+    group: "{{ grafana_user_groupname }}"
+  register: grafana_user
+
+- name: Set grafana user UID Variable
+  set_fact:
+    grafana_user_uid: "{{ grafana_user.uid }}"
+
+- name: Create app directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ grafana_user_username }}"
+    group: "{{ grafana_user_groupname }}"
+  with_items:
+    - "{{ grafana_app_directory }}"
+    - "{{ grafana_data_directory }}"
+
+- name: Pull required images from docker hub
+  docker_image:
+    name: "{{ item }}"
+    source: pull
+  with_items:
+    - "{{ grafana_image_tag }}"
+
+- name: Create docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ grafana_app_directory }}/docker-compose.yml"
+    owner: "{{ grafana_user_username }}"
+    group: "{{ grafana_user_groupname }}"
+  notify: restart grafana
+
+- name: Create app service file
+  template:
+    src: grafana.service.j2
+    dest: "{{ grafana_app_directory }}/grafana.service"
+    owner: "{{ grafana_user_username }}"
+    group: "{{ grafana_user_groupname }}"
+  notify: reload systemd
+
+- name: Install app service
+  file:
+    src: "{{ grafana_app_directory }}/grafana.service"
+    dest: /etc/systemd/system/grafana.service
+    state: link
+
+- name: ensure app starts on a fresh reboot
+  service:
+    name: grafana
+    state: started
+    enabled: yes

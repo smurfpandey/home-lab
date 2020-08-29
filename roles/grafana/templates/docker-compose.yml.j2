@@ -1,0 +1,23 @@
+version: '3.2'
+
+services:
+  {{ grafana_service_name }}:
+    image: {{ grafana_image_tag }}
+    container_name: {{ grafana_service_name }}
+    volumes:
+      - {{ grafana_data_directory }}:/var/lib/grafana
+    labels:
+      traefik.frontend.rule: "Host:grafana.home.smurfpandey.me"
+      traefik.port: "3000"
+    user: "{{ grafana_user_uid }}:{{ grafana_user_gid }}"
+    environment:
+      - UID={{ grafana_user_uid }}
+      - GID={{ grafana_user_gid }}
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD={{ grafana_admin_password }}
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true

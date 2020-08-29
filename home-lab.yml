@@ -1,14 +1,23 @@
 ---
-- hosts: all
+- hosts: pi3b
   become: yes
+  handlers:
+    - import_tasks: handlers/main.yml
+  vars:
+    app_root: '/opt'
   roles:
     - { role: 'common' }
     - { role: 'cron-jobs' }
     - { role: 'image-desc-bot' }
     - { role: 'update-gcloud-firewall' }
+    - { role: 'grafana' }
 
-  tasks:
-  - name: Congratulations!
-    debug:
-      msg:
-        - "Your home-lab is ready now!"
+- hosts: pi4
+  become: yes
+  handlers:
+    - import_tasks: handlers/main.yml
+  vars:
+    data_root: '/mnt/mediahub/apps'
+    app_root: '/opt'
+  roles:
+    - { role: 'influxdb' }

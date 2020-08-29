@@ -1,0 +1,74 @@
+---
+
+# Create user & group to run influxdb server
+- name: Ensure influxdb group is created
+  become: yes
+  group:
+    name: "{{ influxdb_user_groupname }}"
+    gid: "{{ omit if influxdb_user_gid is none else influxdb_user_gid }}"
+    state: present
+  register: influxdb_group
+
+- name: Set influxdb Group GID Variable
+  set_fact:
+    influxdb_user_gid: "{{ influxdb_group.gid }}"
+
+- name: Ensure influxdb user is created
+  user:
+    name: "{{ influxdb_user_username }}"
+    uid: "{{ omit if influxdb_user_uid is none else influxdb_user_uid }}"
+    state: present
+    group: "{{ influxdb_user_groupname }}"
+  register: influxdb_user
+
+- name: Set influxdb user UID Variable
+  set_fact:
+    influxdb_user_uid: "{{ influxdb_user.uid }}"
+
+- name: Create app directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ influxdb_user_username }}"
+    group: "{{ influxdb_user_groupname }}"
+  with_items:
+    - "{{ influxdb_app_directory }}"
+    - "{{ influxdb_data_directory }}"
+    - "{{ chronograf_app_directory }}"
+    - "{{ chronograf_data_directory }}"
+
+- name: Pull required images from docker hub
+  docker_image:
+    name: "{{ item }}"
+    source: pull
+  with_items:
+    - "{{ influxdb_image_tag }}"
+    - "{{ chronograf_image_tag }}"
+
+- name: Create docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ influxdb_app_directory }}/docker-compose.yml"
+    owner: "{{ influxdb_user_username }}"
+    group: "{{ influxdb_user_groupname }}"
+  notify: restart influxdb
+
+- name: Create app service file
+  template:
+    src: influxdb.service.j2
+    dest: "{{ influxdb_app_directory }}/influxdb.service"
+    owner: "{{ influxdb_user_username }}"
+    group: "{{ influxdb_user_groupname }}"
+  notify: reload systemd
+
+- name: Install app service
+  file:
+    src: "{{ influxdb_app_directory }}/influxdb.service"
+    dest: /etc/systemd/system/influxdb.service
+    state: link
+
+- name: ensure app starts on a fresh reboot
+  service:
+    name: influxdb
+    state: started
+    enabled: yes

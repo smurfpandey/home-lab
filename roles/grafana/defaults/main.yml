@@ -1,0 +1,18 @@
+gf_app_name: 'grafana'
+
+grafana_user_username: "{{ gf_app_name }}"
+grafana_user_groupname: "{{ gf_app_name }}"
+grafana_user_uid: ~
+grafana_user_gid: ~
+
+grafana_app_directory: '{{ app_root }}/{{ gf_app_name }}'
+grafana_data_directory: '{{ grafana_app_directory }}/data'
+grafana_image_tag: 'grafana/grafana:7.1.4'
+grafana_service_name: '{{ gf_app_name }}'
+grafana_admin_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          65656135653335303839633866376438386434393263633833366163323133353933643066366362
+          3734316162343561663838653964623530313563636531630a346263613138303836393263363865
+          36633032666264333735366265323162343065626165616133336339303234306333383930653437
+          3266393662386238320a306137333533633830666366356339636334303039623930653236363764
+          61626366343763366265386135316239356436313735363066303266373734623136
