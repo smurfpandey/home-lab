@@ -45,6 +45,14 @@
     - "{{ influxdb_image_tag }}"
     - "{{ chronograf_image_tag }}"
 
+- name: Create influxdb config file
+  template:
+    src: "{{ influxdb_config_file }}.j2"
+    dest: "{{ influxdb_config_path }}"
+    owner: "{{ influxdb_user_username }}"
+    group: "{{ influxdb_user_groupname }}"
+  notify: restart influxdb
+
 - name: Create docker-compose.yml
   template:
     src: docker-compose.yml.j2

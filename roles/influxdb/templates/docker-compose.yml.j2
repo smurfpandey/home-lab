@@ -4,9 +4,11 @@ services:
     image: {{ influxdb_image_tag }}
     container_name: {{ influxdb_service_name }}
     volumes:
-      - {{ influxdb_data_directory }}:/var/lib/influxdb
+      - {{ influxdb_data_directory }}:{{ influxdb_container_directory }}
+      - {{ influxdb_config_path }}:/etc/influxdb/influxdb.conf
     ports:
-      - "{{ influxdb_port }}:8086/tcp"  # http
+      - "{{ influxdb_port }}:8086/tcp"
+      - "{{ influxdb_opentsdb_port }}:{{ influxdb_opentsdb_port }}/tcp"
     environment:
       - INFLUXDB_DB=db0
       - INFLUXDB_ADMIN_ENABLED=true
