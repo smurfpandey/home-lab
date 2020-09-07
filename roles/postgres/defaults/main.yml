@@ -1,0 +1,17 @@
+postgres_user_username: 'postgres'
+postgres_user_groupname: 'postgres'
+postgres_user_uid: ~
+postgres_user_gid: ~
+
+postgres_app_directory: '{{ app_root }}/postgres'
+postgres_data_directory: '{{ data_root }}/postgres'
+postgres_image_tag: 'postgres:12.4'
+postgres_service_name: 'postgres'
+postgres_container_directory: '/var/lib/postgresql/data'
+postgres_admin_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          36373334633137343033383038393934363030316237386333303062353939323132396239353437
+          3034626264613265326531666264356566333562383530340a343765373336333764663537313336
+          35633331383566666335373238643535313965646664616663393239643933366363363263633862
+          3666376237343935620a376135636536626435653761656564643539636230343734343732366666
+          66323934346238376532623333323238396538343231656362303162653834626562

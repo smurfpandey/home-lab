@@ -1,0 +1,12 @@
+version: '3.2'
+
+services:
+  {{ speedtest_service_name }}:
+    image: {{ speedtest_image_name }}:{{ speedtest_image_tag }}
+    container_name: {{ speedtest_service_name }}
+    environment:
+      - SPEEDTEST_HOST=pi3b
+      - INFLUXDB_DB={{ speedtest_database_name }}
+      - INFLUXDB_HOST={{ influxdb_hostname }}
+      - INFLUXDB_PROTOCOL=https
+      - INFLUXDB_PORT=443

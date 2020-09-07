@@ -12,6 +12,7 @@
     - { role: 'image-desc-bot' }
     - { role: 'update-gcloud-firewall' }
     - { role: 'grafana' }
+    - { role: 'speedtest', tags: 'speedtest' }
 
 - hosts: pi4
   become: yes
@@ -22,5 +23,5 @@
     app_root: '/opt'
   roles:
     - { role: 'base-requirements' }
-    - { role: 'influxdb', tags: 'influxdb' }
-    - { role: 'netdata', tags: 'netdata' }
+    - { role: 'influxdb', tags: [ 'influxdb', 'speedtest' ] }
+    - { role: 'postgres', tags: 'postgres' }

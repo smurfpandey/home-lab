@@ -1,0 +1,7 @@
+---
+
+speedtest_app_directory: '{{ app_root }}/speedtest'
+speedtest_image_name: 'ghcr.io/smurfpandey/speedtest'
+speedtest_image_tag: 'affdad5c'
+speedtest_service_name: 'speedtest'
+speedtest_database_name: 'speedtest'

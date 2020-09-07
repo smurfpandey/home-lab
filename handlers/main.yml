@@ -18,3 +18,8 @@
   service:
     name: netdata
     state: restarted
+
+- name: restart postgres
+  service:
+    name: postgres
+    state: restarted
