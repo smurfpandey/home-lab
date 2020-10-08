@@ -23,3 +23,14 @@
   service:
     name: postgres
     state: restarted
+
+- name: restart pihole
+  service:
+    name: pihole
+    state: restarted
+
+- name: restart youtubedl-ui
+  service:
+    name: youtubedl-ui
+    state: restarted
+  

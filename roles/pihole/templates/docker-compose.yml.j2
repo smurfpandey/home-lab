@@ -1,0 +1,21 @@
+version: '3.2'
+
+services:
+  {{ pihole_service_name }}:
+    image: {{ pihole_image_tag }}
+    container_name: {{ pihole_service_name }}
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "{{ pihole_ui_port }}:80/tcp"    
+    environment:
+      - WEB_PORT={{ pihole_ui_port }}
+      - TZ='Asia/Kolkata'
+      - WEBPASSWORD={{ pihole_ui_password }}
+    volumes:
+      - '{{ pihole_appdata_directory }}/:/etc/pihole/'
+      - '{{ pihole_dnsmasq_data_directory }}/:/etc/dnsmasq.d/'
+    cap_add:
+      - NET_ADMIN
+    network_mode: host

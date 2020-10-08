@@ -1,0 +1,15 @@
+- name: Install needed packages (see https://www.raspberrypi.org/documentation/configuration/external-storage.md)
+  apt:
+    name:
+      - ntfs-3g
+    allow_unauthenticated: true
+    install_recommends: no
+    state: latest
+
+- name: Mount hard-disk
+  mount:
+    path: /mnt/mediahub
+    src: PARTUUID=264ee347-e5bf-4c8a-ae3c-67060ab8c597
+    fstype: ntfs
+    state: present
+    opts: defaults,uid=1000,gid=1000

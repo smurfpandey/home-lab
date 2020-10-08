@@ -13,6 +13,8 @@
     - { role: 'update-gcloud-firewall' }
     - { role: 'grafana' }
     - { role: 'speedtest', tags: 'speedtest' }
+    - { role: 'sync-listenbrainz', tags: 'sync-listenbrainz' }
+    - { role: 'pihole', tags: 'pihole' }
 
 - hosts: pi4
   become: yes
@@ -23,5 +25,7 @@
     app_root: '/opt'
   roles:
     - { role: 'base-requirements' }
+    - { role: 'mount-hdd' }
     - { role: 'influxdb', tags: [ 'influxdb', 'speedtest' ] }
     - { role: 'postgres', tags: 'postgres' }
+    - { role: 'youtubedl-material', tags: 'youtubedl-material' }
