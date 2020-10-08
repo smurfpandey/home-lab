@@ -1,0 +1,48 @@
+---
+
+  - name: Create app directory
+    file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+      - "{{ youtubedl_app_directory }}"
+      - "{{ youtubedl_app_directory }}"
+      - "{{ youtubedl_data_directory }}"
+      - "{{ youtubedl_appdata_directory }}"
+      - "{{ youtubedl_subsdata_directory }}"
+      - "{{ youtubedl_usersdata_directory }}"
+      - "{{ youtubedl_download_directory }}"
+      - "{{ youtubedl_download_video_directory }}"
+      - "{{ youtubedl_download_audio_directory }}"
+  
+  - name: Pull required images from docker hub
+    docker_image:
+      name: "{{ item }}"
+      source: pull
+    with_items:
+      - "{{ youtubedl_image_tag }}"
+  
+  - name: Create docker-compose.yml
+    template:
+      src: docker-compose.yml.j2
+      dest: "{{ youtubedl_app_directory }}/docker-compose.yml"
+    notify: restart {{ youtubedl_service_name }}
+  
+  - name: Create app service file
+    template:
+      src: "{{ youtubedl_service_name }}.service.j2"
+      dest: "{{ youtubedl_app_directory }}/{{ youtubedl_service_name }}.service"
+    notify: reload systemd
+  
+  - name: Install app service
+    file:
+      src: "{{ youtubedl_app_directory }}/{{ youtubedl_service_name }}.service"
+      dest: /etc/systemd/system/{{ youtubedl_service_name }}.service
+      state: link
+  
+  - name: ensure app starts on a fresh reboot
+    service:
+      name: "{{ youtubedl_service_name }}"
+      state: started
+      enabled: yes
+  

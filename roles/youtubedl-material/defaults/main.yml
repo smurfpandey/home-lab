@@ -1,0 +1,11 @@
+
+youtubedl_app_directory: '{{ app_root }}/youtubedl-ui'
+youtubedl_data_directory: '{{ data_root }}/youtubedl-ui'
+youtubedl_appdata_directory: '{{ youtubedl_data_directory }}/data'
+youtubedl_subsdata_directory: '{{ youtubedl_data_directory }}/subscriptions'
+youtubedl_usersdata_directory: '{{ youtubedl_data_directory }}/users'
+youtubedl_download_directory: '/mnt/mediahub/YoutubeDL'
+youtubedl_download_video_directory: '/mnt/mediahub/YoutubeDL/video'
+youtubedl_download_audio_directory: '/mnt/mediahub/YoutubeDL/audio'
+youtubedl_image_tag: 'ghcr.io/smurfpandey/youtubedl-material:60291574'
+youtubedl_service_name: 'youtubedl-ui'

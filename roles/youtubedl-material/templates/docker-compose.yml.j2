@@ -1,0 +1,19 @@
+version: '3.2'
+
+services:
+  {{ youtubedl_service_name }}:
+    image: {{ youtubedl_image_tag }}
+    container_name: {{ youtubedl_service_name }}
+    ports:
+      - "{{ youtubedl_ui_port }}:17442/tcp"
+    user: "1000:1000"
+    environment:
+      - UID=1000
+      - GID=1000
+      - ALLOW_CONFIG_MUTATIONS='true'
+    volumes:
+      - {{ youtubedl_appdata_directory }}:/app/appdata
+      - {{ youtubedl_download_audio_directory }}:/app/audio
+      - {{ youtubedl_download_video_directory }}:/app/video
+      - {{ youtubedl_subsdata_directory }}:/app/subscriptions
+      - {{ youtubedl_usersdata_directory }}:/app/users
