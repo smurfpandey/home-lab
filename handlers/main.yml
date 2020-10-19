@@ -34,3 +34,7 @@
     name: youtubedl-ui
     state: restarted
   
+- name: restart newrelic-infra
+  service:
+    name: newrelic-infra
+    state: restarted  

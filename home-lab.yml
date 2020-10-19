@@ -15,6 +15,7 @@
     - { role: 'speedtest', tags: 'speedtest' }
     - { role: 'sync-listenbrainz', tags: 'sync-listenbrainz' }
     - { role: 'pihole', tags: 'pihole' }
+    - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
 
 - hosts: pi4
   become: yes
@@ -29,3 +30,4 @@
     - { role: 'influxdb', tags: [ 'influxdb', 'speedtest' ] }
     - { role: 'postgres', tags: 'postgres' }
     - { role: 'youtubedl-material', tags: 'youtubedl-material' }
+    - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
