@@ -16,6 +16,7 @@
     - { role: 'sync-listenbrainz', tags: 'sync-listenbrainz' }
     - { role: 'pihole', tags: 'pihole' }
     - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
+    - { role: 'telegraf', tags: 'telegraf' }
 
 - hosts: pi4
   become: yes
@@ -31,3 +32,4 @@
     - { role: 'postgres', tags: 'postgres' }
     - { role: 'youtubedl-material', tags: 'youtubedl-material' }
     - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
+    - { role: 'telegraf', tags: 'telegraf' }

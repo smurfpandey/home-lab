@@ -1,0 +1,100 @@
+---
+
+# Install
+- name: Install any necessary dependencies [Debian/Ubuntu]
+  apt:
+    name:
+      - python-httplib2
+      - python-apt
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  register: apt_result
+  until: apt_result is success
+  retries: 2
+  delay: 5
+
+- name: Import InfluxData GPG signing key [Debian/Ubuntu]
+  apt_key:
+    url: "{{ telegraf_influxdata_base_url }}/influxdb.key"
+    state: present
+
+- name: Add InfluxData repository [Debian/Ubuntu]
+  apt_repository:
+    repo: deb {{ telegraf_influxdata_base_url }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+    state: present
+
+- name: Install Telegraf packages [Debian/Ubuntu]
+  apt:
+    name: telegraf
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+  register: apt_result
+  until: apt_result is success
+  retries: 2
+  delay: 5
+
+# Configure
+- name: Set default Telegraf configuration
+  template:
+    src: "telegraf.conf"
+    dest: "{{ telegraf_configuration_dir }}/telegraf.conf"
+    force: yes
+    backup: yes
+    owner: telegraf
+    group: telegraf
+    mode: 0744
+  # If config changes, restart telegraf and confirm it remained running
+  notify:
+    - "restart telegraf"
+    - "pause"
+    - "check status"
+    - "assert running"
+
+- name: Add telegraf user to video group to allow monitoring GPU temps
+  user: name=telegraf
+        groups=video
+        append=yes
+
+- name: Set influxdb as output destination
+  template:
+    src: "telegraf.d/outputs.influxdb.conf.j2"
+    dest: "{{ telegraf_configuration_dir }}/telegraf.d/outputs.influxdb.conf"
+    force: yes
+    owner: telegraf
+    group: telegraf
+    mode: 0744
+  # If config changes, restart telegraf and confirm it remained running
+  notify:
+    - "restart telegraf"
+    - "pause"
+    - "check status"
+    - "assert running"
+
+- name: Start monitoring CPU temps
+  template:
+    src: "telegraf.d/inputs.temps.conf"
+    dest: "{{ telegraf_configuration_dir }}/telegraf.d/inputs.temps.conf"
+    force: yes
+    owner: telegraf
+    group: telegraf
+    mode: 0744
+  # If config changes, restart telegraf and confirm it remained running
+  notify:
+    - "restart telegraf"
+    - "pause"
+    - "check status"
+    - "assert running"
+
+- name: Start the Telegraf service
+  service:
+    name: telegraf
+    state: started
+    enabled: yes
+  # Only care to check the status if the state changed to 'started'
+  notify:
+    - "pause"
+    - "check status"
+    - "assert running"
+  become: true

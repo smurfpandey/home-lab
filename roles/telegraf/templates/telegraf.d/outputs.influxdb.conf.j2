@@ -1,0 +1,7 @@
+# Configuration for influxdb server to send metrics to
+[[outputs.influxdb]]
+    urls = ["https://{{ influxdb_hostname }}"]
+    database = "telegraf"
+    ## HTTP Basic Auth
+    username = "telegraf"
+    password = "{{ influx_telegraf_auth_pass }}"
