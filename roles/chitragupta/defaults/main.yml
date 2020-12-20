@@ -2,7 +2,7 @@
 
 chitragupta_app_directory: '{{ app_root }}/chitragupta'
 chitragupta_image_name: 'ghcr.io/smurfpandey/chitragupta'
-chitragupta_image_tag: 'b2172242'
+chitragupta_image_tag: '95428db8'
 chitragupta_service_name: 'chitragupta'
 chitragupta_database_name: 'chitragupta'
 chitragupta_database_user: 'chitragupta'
