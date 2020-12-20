@@ -1,0 +1,26 @@
+version: '3.2'
+
+services:
+  {{ chitragupta_service_name }}:
+    image: {{ chitragupta_image_name }}:{{ chitragupta_image_tag }}
+    container_name: {{ chitragupta_service_name }}
+    labels:
+      traefik.frontend.rule: "Host:chitragupta.home.smurfpandey.me"
+      traefik.port: "5000"
+    user: "1000:1000"
+    environment:
+      - UID=1000
+      - GID=1000
+      - FLASK_DEBUG=0
+      - FLASK_ENV=production
+      - DATABASE_URL=postgresql+psycopg2://{{ chitragupta_database_user }}:{{ chitragupta_database_password }}@{{ postgres_host }}/{{ chitragupta_database_name }}
+      - GUNICORN_WORKERS=1
+      - LOG_LEVEL=INFO
+      - SECRET_KEY={{ chitragupta_app_secret_key }}
+      - SEND_FILE_MAX_AGE_DEFAULT=31556926
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
