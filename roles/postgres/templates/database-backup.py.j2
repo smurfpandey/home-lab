@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+from datetime import datetime
+import socket
+import subprocess
+import urllib.request
+
+BACKUP_DIR = '{{ postgres_backup_directory }}'
+DOCKER_CONTAINER_NAME = '{{ postgres_service_name }}'
+DB_USER_NAME = '{{ postgres_admin_user }}'
+HEALTHCHECKS_URL = '{{ postgres_backup_healthcheck }}'
+
+get_db_list_query = 'select datname from pg_database where not datistemplate and datallowconn;'
+
+def notify_health_check(is_start):
+    ###Send ping to healthchecks.io"""
+    print("\nSending ping to healtchecks.io")
+
+    req_url = HEALTHCHECKS_URL;
+    if is_start:
+        req_url += '/start'
+
+    try:
+        urllib.request.urlopen(req_url, timeout=10)
+    except socket.error as e:
+        # Log ping failure here...
+        print("Ping failed: %s" % e)
+    
+def execute_command_return_str(cmd_txt):
+    '''
+    Execute a command on shell & return the output of the process
+    '''
+    return subprocess.run(cmd_txt,shell=True,text=True,stdout=subprocess.PIPE).stdout
+
+def execute_command_no_return(cmd_txt):
+    '''
+    Execute a command on shell & return the output of the process
+    '''
+    subprocess.run(cmd_txt,shell=True,text=True, stdout=subprocess.DEVNULL)
+
+def perform_backups():
+    """Takes backup of all databases one by one"""
+
+    print("\n\nPerforming full backups")
+    print("--------------------------------------------\n")
+
+    notify_health_check(True)
+
+    # Get list of all databases
+    get_db_list_cmd = f'docker exec {DOCKER_CONTAINER_NAME} psql -U {DB_USER_NAME} -At -c "{get_db_list_query}"'
+    print(get_db_list_cmd)
+    db_list = execute_command_return_str(get_db_list_cmd).splitlines()
+
+    today_date = datetime.utcnow()
+    FINAL_BACKUP_DIR = BACKUP_DIR + '/' + today_date.strftime('%Y-%m-%d')
+
+    print('Got these databases:', db_list)
+    execute_command_no_return(f'mkdir -p {FINAL_BACKUP_DIR}')
+    for db_name in db_list:
+        if db_name == 'postgres':
+            continue
+        if db_name == 'admin':
+            continue
+
+        backup_file_name = f'{FINAL_BACKUP_DIR}/{db_name}.sql'
+        take_backup_command = f'docker exec {DOCKER_CONTAINER_NAME} pg_dump -Fp -C -U "{DB_USER_NAME}" "{db_name}" | gzip > {backup_file_name}.gz.in_progress;'
+        print("Starting backup of:", db_name)
+
+        try:
+            execute_command_no_return(take_backup_command)
+
+            move_backup = f'mv {backup_file_name}.gz.in_progress {backup_file_name}.gz'
+            execute_command_no_return(move_backup)
+
+            print('Backup complete!')
+        except Exception as e:
+            print(e)
+            print('Backup failed!!')
+    print('All backups done!')
+    notify_health_check(False)
+
+perform_backups()

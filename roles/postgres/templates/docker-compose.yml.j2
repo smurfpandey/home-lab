@@ -4,8 +4,13 @@ services:
   {{ postgres_service_name }}:
     image: {{ postgres_image_tag }}
     container_name: {{ postgres_service_name }}
+    ports:
+      - "{{ postgres_port }}:5432/tcp"
     environment:
       - POSTGRES_PASSWORD={{ postgres_admin_password }}
-      - POSTGRES_USER=admin
+      - POSTGRES_USER={{ postgres_admin_user }}
     volumes:
-      - "{{ postgres_data_directory }}:/var/lib/postgresql/data"
+      - "pg_db:/var/lib/postgresql/data"
+
+volumes:
+  pg_db:

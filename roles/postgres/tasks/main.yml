@@ -1,39 +1,11 @@
 ---
 
-# Create user & group to run postgres server
-- name: Ensure postgres group is created
-  become: yes
-  group:
-    name: "{{ postgres_user_groupname }}"
-    gid: "{{ omit if postgres_user_gid is none else postgres_user_gid }}"
-    state: present
-  register: postgres_group
-
-- name: Set postgres Group GID Variable
-  set_fact:
-    postgres_user_gid: "{{ postgres_group.gid }}"
-
-- name: Ensure postgres user is created
-  user:
-    name: "{{ postgres_user_username }}"
-    uid: "{{ omit if postgres_user_uid is none else postgres_user_uid }}"
-    state: present
-    group: "{{ postgres_user_groupname }}"
-  register: postgres_user
-
-- name: Set postgres user UID Variable
-  set_fact:
-    postgres_user_uid: "{{ postgres_user.uid }}"
-
 - name: Create app directory
   file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ postgres_user_username }}"
-    group: "{{ postgres_user_groupname }}"
   with_items:
     - "{{ postgres_app_directory }}"
-    - "{{ postgres_data_directory }}"
 
 - name: Pull required images from docker hub
   docker_image:
@@ -46,16 +18,12 @@
   template:
     src: docker-compose.yml.j2
     dest: "{{ postgres_app_directory }}/docker-compose.yml"
-    owner: "{{ postgres_user_username }}"
-    group: "{{ postgres_user_groupname }}"
   notify: restart postgres
 
 - name: Create app service file
   template:
     src: postgres.service.j2
     dest: "{{ postgres_app_directory }}/postgres.service"
-    owner: "{{ postgres_user_username }}"
-    group: "{{ postgres_user_groupname }}"
   notify: reload systemd
 
 - name: Install app service
@@ -69,3 +37,19 @@
     name: postgres
     state: started
     enabled: yes
+
+# Setup backup service
+- name: Create backup service
+  template:
+    src: database-backup.py.j2
+    dest: "{{ postgres_app_directory }}/database-backup.py"
+    mode: 'a+x'
+
+- name: Create cronjob for daily execution
+  cron:
+    name: Start postgres backup service
+    cron_file: homelab-postgres-backup
+    minute: "30"
+    hour: "6"
+    user: pi
+    job: "{{ postgres_app_directory }}/database-backup.py"
