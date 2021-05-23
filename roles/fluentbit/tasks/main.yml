@@ -1,0 +1,45 @@
+---
+
+- name: Create app directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ fluentbit_app_directory }}"
+
+- name: Pull required images from docker hub
+  docker_image:
+    name: "{{ item }}"
+    source: pull
+  with_items:
+    - "{{ fluentbit_image_name }}:{{ fluentbit_image_tag }}"
+
+- name: Create docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ fluentbit_app_directory }}/docker-compose.yml"
+  notify: restart fluentbit
+
+- name: Create config file
+  template:
+    src: fluentbit.conf.j2
+    dest: "{{ fluentbit_config_path }}"
+  notify: restart fluentbit
+
+- name: Create app service file
+  template:
+    src: "{{ fluentbit_service_name }}.service.j2"
+    dest: "{{ fluentbit_app_directory }}/{{ fluentbit_service_name }}.service"
+  notify: reload systemd
+
+- name: Install app service
+  file:
+    src: "{{ fluentbit_app_directory }}/{{ fluentbit_service_name }}.service"
+    dest: /etc/systemd/system/{{ fluentbit_service_name }}.service
+    state: link
+
+- name: ensure app starts on a fresh reboot
+  service:
+    name: "{{ fluentbit_service_name }}"
+    state: started
+    enabled: yes

@@ -1,12 +1,12 @@
 [Unit]
-Description=Service for youtubedl-material
+Description=Service for fluentbit
 After=docker.service
 Requires=docker.service
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-WorkingDirectory={{ youtubedl_app_directory }}
+WorkingDirectory={{ fluentbit_app_directory }}
 ExecStart={{ docker_compose_binary }} up -d
 ExecStop={{ docker_compose_binary }} stop
 ExecReload={{ docker_compose_binary }} restart

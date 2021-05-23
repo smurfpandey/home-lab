@@ -7,13 +7,14 @@
     app_root: '/opt'
   roles:
     - { role: 'base-requirements' }
+    - { role: 'docker', tags: 'docker' }
     - { role: 'common' }
     - { role: 'cron-jobs' }
     - { role: 'image-desc-bot' }
     - { role: 'update-gcloud-firewall' }
     - { role: 'grafana' }
     - { role: 'speedtest', tags: 'speedtest' }
-    - { role: 'sync-listenbrainz', tags: 'sync-listenbrainz' }
+    # - { role: 'sync-listenbrainz', tags: 'sync-listenbrainz' }
     - { role: 'pihole', tags: 'pihole' }
     - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
     - { role: 'telegraf', tags: 'telegraf' }
@@ -27,9 +28,24 @@
     app_root: '/opt'
   roles:
     - { role: 'base-requirements' }
+    - { role: 'docker', tags: 'docker' }
     - { role: 'mount-hdd' }
     - { role: 'influxdb', tags: [ 'influxdb', 'speedtest' ] }
     - { role: 'postgres', tags: 'postgres' }
     - { role: 'youtubedl-material', tags: 'youtubedl-material' }
     - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
     - { role: 'telegraf', tags: 'telegraf' }
+
+- hosts: do1
+  become: yes
+  handlers:
+    - import_tasks: handlers/main.yml
+  vars:
+    app_root: '/opt'
+    ansible_become_pass: "{{ lookup('env','SUDO_PASS') }}"
+    host_name: 'pws-01.do'
+  roles:
+    - { role: 'base-requirements' }
+    - { role: 'docker', tags: 'docker' }
+    - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
+    - { role: 'fluentbit', tags: 'fluent' }

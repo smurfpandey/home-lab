@@ -37,4 +37,9 @@
 - name: restart newrelic-infra
   service:
     name: newrelic-infra
-    state: restarted  
+    state: restarted
+
+- name: restart fluentbit
+  service:
+    name: fluentbit
+    state: restarted

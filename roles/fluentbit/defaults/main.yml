@@ -1,0 +1,12 @@
+---
+
+fluentbit_app_directory: "{{ app_root }}/fluentbit"
+fluentbit_config_path: "{{ fluentbit_app_directory }}/fluent-bit.conf"
+fluentbit_db_path: "{{ fluentbit_app_directory }}/logs.db"
+fluentbit_service_name: "fluentbit"
+fluentbit_image_name: "ghcr.io/smurfpandey/newrelic-fluent-bit-output"
+fluentbit_image_tag: "616b1a48@sha256:1e7dfe48d0f93a5e7c0d988c936cb931fb7e4f7fa914ff54f98e004fbce690df" # linux/amd64
+
+nginx_access_log: /var/log/nginx/access.log
+nginx_error_log: /var/log/nginx/error.log
+fail2ban_log: /var/log/fail2ban.log

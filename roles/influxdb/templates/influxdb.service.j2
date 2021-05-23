@@ -1,5 +1,7 @@
 [Unit]
 Description=Service for influxdb
+After=docker.service
+Requires=docker.service
 
 [Service]
 Type=oneshot
