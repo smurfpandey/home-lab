@@ -61,8 +61,6 @@ jobs:
     defaults:
       run:
         working-directory: ./output
-    outputs:
-      server_ip: ${{ steps.output_ip.outputs.stdout }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -85,3 +83,5 @@ jobs:
 
       - name: Apply Terraform
         run: terraform apply -auto-approve -input=false plan.tfplan
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
