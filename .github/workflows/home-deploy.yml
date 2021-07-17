@@ -52,3 +52,36 @@ jobs:
         with:
           name: tf-output
           path: ./tf-output.tar.gz
+
+  terraform_deploy:
+    name: "Apply Terraform"
+    runs-on: ubuntu-latest
+    needs: terraform_validate
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    defaults:
+      run:
+        working-directory: ./output
+    outputs:
+      server_ip: ${{ steps.output_ip.outputs.stdout }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download tf-output from previous job
+        uses: actions/download-artifact@v2
+        with:
+          name: tf-output
+          path: ./output
+
+      - name: Extract
+        run: tar -xzf tf-output.tar.gz
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - run: ls -lash
+
+      - name: Apply Terraform
+        run: terraform apply -auto-approve -input=false plan.tfplan
