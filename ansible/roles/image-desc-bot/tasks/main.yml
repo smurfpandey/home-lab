@@ -25,5 +25,5 @@
     cron_file: homelab-ImageDescBot
     minute: "01"
     hour: "09"
-    user: pi
+    user: "{{ ansible_user }}"
     job: "{{ app_folder }}/start-job.sh"

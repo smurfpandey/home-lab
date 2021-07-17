@@ -6,6 +6,8 @@
     state: directory
   with_items:
     - "{{ postgres_app_directory }}"
+    - "{{ postgres_scripts_directory }}"
+    - "{{ postgres_backup_directory }}"
 
 - name: Pull required images from docker hub
   docker_image:
@@ -42,7 +44,7 @@
 - name: Create backup service
   template:
     src: database-backup.py.j2
-    dest: "{{ postgres_app_directory }}/database-backup.py"
+    dest: "{{ postgres_scripts_directory }}/database-backup.py"
     mode: 'a+x'
 
 - name: Create cronjob for daily execution
@@ -51,5 +53,12 @@
     cron_file: homelab-postgres-backup
     minute: "30"
     hour: "6"
-    user: pi
-    job: "{{ postgres_app_directory }}/database-backup.py"
+    user: "{{ ansible_user }}"
+    job: "{{ postgres_scripts_directory }}/database-backup.py"
+
+# Setup various scripts
+- name: Copy create-db script
+  template:
+    src: create-database.sh.j2
+    dest: "{{ postgres_scripts_directory }}/create-database.sh"
+    mode: 'a+x'

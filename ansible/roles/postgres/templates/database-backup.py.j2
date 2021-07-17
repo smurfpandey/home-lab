@@ -47,7 +47,7 @@ def perform_backups():
 
     # Get list of all databases
     get_db_list_cmd = f'docker exec {DOCKER_CONTAINER_NAME} psql -U {DB_USER_NAME} -At -c "{get_db_list_query}"'
-    print(get_db_list_cmd)
+    
     db_list = execute_command_return_str(get_db_list_cmd).splitlines()
 
     today_date = datetime.utcnow()
