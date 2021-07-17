@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    cloudflare = {
+      source = "cloudflare/cloudflare"
+    }
+  }
+}
+
 data "cloudflare_zones" "smurfville_app" {
   filter {
     name = "smurfville.app"
