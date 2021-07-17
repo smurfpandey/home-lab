@@ -18,3 +18,9 @@ terraform {
 }
 
 provider "cloudflare" {}
+
+module "dns_records" {
+  source = "./modules/dns-records"
+
+  do1_cname = "pws.neerajverma.dev"
+}
