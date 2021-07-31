@@ -89,6 +89,7 @@ jobs:
   ansible:
     name: 'Deploy via Ansible'
     runs-on: ubuntu-latest
+    needs: terraform_deploy
     if: ${{ github.event_name == 'workflow_dispatch' }}
     defaults:
       run:
