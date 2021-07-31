@@ -62,3 +62,4 @@
     - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
     - { role: 'fluentbit', tags: 'fluent' }
     - { role: 'postgres', tags: 'postgres' }
+    - { role: 'rabbitmq', tags: 'rabbitmq' }

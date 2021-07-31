@@ -1,0 +1,41 @@
+---
+
+- name: Create app directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ rabbitmq_app_directory }}"
+    - "{{ rabbitmq_scripts_directory }}"
+    - "{{ rabbitmq_data_directory }}"
+
+- name: Pull required images from docker hub
+  docker_image:
+    name: "{{ item }}"
+    source: pull
+  with_items:
+    - "{{ rabbitmq_image_tag }}"
+
+- name: Create docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ rabbitmq_app_directory }}/docker-compose.yml"
+  notify: restart rabbitmq
+
+- name: Create app service file
+  template:
+    src: rabbitmq.service.j2
+    dest: "{{ rabbitmq_app_directory }}/rabbitmq.service"
+  notify: reload systemd
+
+- name: Install app service
+  file:
+    src: "{{ rabbitmq_app_directory }}/rabbitmq.service"
+    dest: /etc/systemd/system/rabbitmq.service
+    state: link
+
+- name: ensure app starts on a fresh reboot
+  service:
+    name: rabbitmq
+    state: started
+    enabled: yes

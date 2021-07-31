@@ -24,6 +24,11 @@
     name: postgres
     state: restarted
 
+- name: restart rabbitmq
+  service:
+    name: rabbitmq
+    state: restarted
+
 - name: restart pihole
   service:
     name: pihole
@@ -33,7 +38,7 @@
   service:
     name: youtubedl-ui
     state: restarted
-  
+
 - name: restart newrelic-infra
   service:
     name: newrelic-infra
