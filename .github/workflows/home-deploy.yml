@@ -106,7 +106,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           vault_password: ${{ secrets.ANSIBLE_VAULT_PASS }}
           inventory: |
-            [all]
+            [do1]
             ${{ secrets.DO1_SERVER_NAME }} ansible_user=${{ secrets.DO1_SERVER_SUDO_USER }}
           options: |
             --extra-vars "ansible_become_pass=${{ secrets.DO1_SERVER_SUDO_PASS }}"
