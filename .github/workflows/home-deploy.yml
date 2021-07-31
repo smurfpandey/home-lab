@@ -85,3 +85,27 @@ jobs:
         run: terraform apply -auto-approve -input=false plan.tfplan
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+
+  ansible:
+    name: 'Deploy via Ansible'
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    defaults:
+      run:
+        working-directory: ./ansible
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: main.yml
+          directory: ./ansible
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          vault_password: ${{ secrets.ANSIBLE_VAULT_PASS }}
+          inventory: |
+            [all]
+            ${{ secrets.DO1_SERVER_NAME }} ansible_user=${{ secrets.DO1_SERVER_SUDO_USER }}
+          options: |
+            --extra-vars "ansible_become_pass=${{ secrets.DO1_SERVER_SUDO_PASS }}"
