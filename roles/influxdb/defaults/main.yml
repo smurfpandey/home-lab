@@ -1,8 +1,3 @@
-influxdb_user_username: 'influxdb'
-influxdb_user_groupname: 'influxdb'
-influxdb_user_uid: ~
-influxdb_user_gid: ~
-
 influxdb_app_directory: '{{ app_root }}/influxdb'
 influxdb_data_directory: '{{ data_root }}/influxdb'
 influxdb_config_file: 'influxdb.conf'

@@ -50,6 +50,6 @@
     name: Start postgres backup service
     cron_file: homelab-postgres-backup
     minute: "30"
-    hour: "6"
+    hour: "00"
     user: pi
     job: "{{ postgres_app_directory }}/database-backup.py"
