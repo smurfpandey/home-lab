@@ -1,0 +1,6 @@
+---
+
+jellyfin_app_directory: '{{ app_root }}/jellyfin'
+jellyfin_image_name: 'linuxserver/jellyfin'
+jellyfin_image_tag: 'arm32v7-10.7.7-1-ls137'
+jellyfin_service_name: 'jellyfin'

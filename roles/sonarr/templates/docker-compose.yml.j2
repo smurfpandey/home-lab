@@ -1,0 +1,21 @@
+version: '3.2'
+
+services:
+  {{ sonarr_service_name }}:
+    image: {{ sonarr_image_name }}:{{ sonarr_image_tag }}
+    container_name: {{ sonarr_service_name }}
+    labels:
+      traefik.frontend.rule: "Host:sonarr.home.smurfpandey.me"
+      traefik.port: "8989"    
+    ports:
+      - "8989:8989/tcp"
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/mediahub/apps/sonarr:/config
+      - /mnt/mediahub/data:/data

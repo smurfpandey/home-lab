@@ -1,0 +1,13 @@
+[Unit]
+Description=Service for jellyfin
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory={{ jellyfin_app_directory }}
+ExecStart={{ docker_compose_binary }} up -d
+ExecStop={{ docker_compose_binary }} stop
+ExecReload={{ docker_compose_binary }} restart
+
+[Install]
+WantedBy=multi-user.target

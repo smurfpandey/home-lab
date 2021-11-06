@@ -1,0 +1,34 @@
+---
+
+- name: Create app directory in /opt/
+  file:
+    path: "{{ transmission_app_directory }}"
+    state: directory
+
+- name: Pull required images from docker hub
+  docker_image:
+    name: "{{ transmission_image_name }}:{{ transmission_image_tag }}"
+    source: pull
+
+- name: Create docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ transmission_app_directory }}/docker-compose.yml"
+
+- name: Create app service file
+  template:
+    src: "{{ transmission_service_name }}.service.j2"
+    dest: "{{ transmission_app_directory }}/{{ transmission_service_name }}.service"
+  notify: reload systemd
+  
+- name: Install app service
+  file:
+    src: "{{ transmission_app_directory }}/{{ transmission_service_name }}.service"
+    dest: /etc/systemd/system/{{ transmission_service_name }}.service
+    state: link
+
+- name: ensure app starts on a fresh reboot
+  service:
+    name: "{{ transmission_service_name }}"
+    state: started
+    enabled: yes

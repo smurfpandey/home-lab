@@ -1,0 +1,34 @@
+---
+
+- name: Create app directory in /opt/jobs
+  file:
+    path: "{{ sonarr_app_directory }}"
+    state: directory
+
+- name: Pull required images from docker hub
+  docker_image:
+    name: "{{ sonarr_image_name }}:{{ sonarr_image_tag }}"
+    source: pull
+
+- name: Create docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ sonarr_app_directory }}/docker-compose.yml"
+
+- name: Create app service file
+  template:
+    src: "{{ sonarr_service_name }}.service.j2"
+    dest: "{{ sonarr_app_directory }}/{{ sonarr_service_name }}.service"
+  notify: reload systemd
+  
+- name: Install app service
+  file:
+    src: "{{ sonarr_app_directory }}/{{ sonarr_service_name }}.service"
+    dest: /etc/systemd/system/{{ sonarr_service_name }}.service
+    state: link
+
+- name: ensure app starts on a fresh reboot
+  service:
+    name: "{{ sonarr_service_name }}"
+    state: started
+    enabled: yes

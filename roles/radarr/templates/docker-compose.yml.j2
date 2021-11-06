@@ -1,0 +1,21 @@
+version: '3.2'
+
+services:
+  {{ radarr_service_name }}:
+    image: {{ radarr_image_name }}:{{ radarr_image_tag }}
+    container_name: {{ radarr_service_name }}
+    labels:
+      traefik.frontend.rule: "Host:radarr.home.smurfpandey.me"
+      traefik.port: "7878"    
+    ports:
+      - "7878:7878/tcp"
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/mediahub/apps/radarr:/config
+      - /mnt/mediahub/data:/data

@@ -1,0 +1,21 @@
+version: '3.2'
+
+services:
+  {{ jellyfin_service_name }}:
+    image: {{ jellyfin_image_name }}:{{ jellyfin_image_tag }}
+    container_name: {{ jellyfin_service_name }}
+    labels:
+      traefik.frontend.rule: "Host:media.home.smurfpandey.me"
+      traefik.port: "8096"    
+    ports:
+      - "8096:8096/tcp"
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/mediahub/apps/jellyfin:/config
+      - /mnt/mediahub/data/media:/data/media

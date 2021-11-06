@@ -1,0 +1,6 @@
+---
+
+transmission_app_directory: '{{ app_root }}/transmission'
+transmission_image_name: 'linuxserver/transmission'
+transmission_image_tag: 'arm32v7-3.00-r2-ls105'
+transmission_service_name: 'transmission'

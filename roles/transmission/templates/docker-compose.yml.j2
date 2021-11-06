@@ -1,0 +1,23 @@
+version: '3.2'
+
+services:
+  {{ transmission_service_name }}:
+    image: {{ transmission_image_name }}:{{ transmission_image_tag }}
+    container_name: {{ transmission_service_name }}
+    labels:
+      traefik.frontend.rule: "Host:transmission.home.smurfpandey.me"
+      traefik.port: "9091"    
+    ports:
+      - "9091:9091/tcp"
+      - "51413:51413/tcp"
+      - "51413:51413/udp"
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/mediahub/apps/transmission:/config
+      - /mnt/mediahub/data/torrents:/data/torrents
