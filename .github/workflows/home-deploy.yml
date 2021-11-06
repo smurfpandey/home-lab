@@ -1,0 +1,112 @@
+name: "Home Lab Deploy"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  terraform_validate:
+    name: "Validate Terraform"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./terraform
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - uses: terraform-linters/setup-tflint@v1
+        name: Setup TFLint
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Ensure formatting
+        run: terraform fmt -check -recursive
+
+      - name: Run tflint
+        run: tflint --module
+
+      - name: Terraform Plan
+        id: plan
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: terraform plan -input=false -out=../output/plan.tfplan
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+
+      - name: Prepare Artifacts
+        shell: bash
+        run: |
+          cp -r .terraform ../output
+          cp -r .terraform.lock.hcl ../output
+          cd ../output && tar -czf ../tf-output.tar.gz .
+      - name: Upload terraform output
+        uses: actions/upload-artifact@v2
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        with:
+          name: tf-output
+          path: ./tf-output.tar.gz
+
+  terraform_deploy:
+    name: "Apply Terraform"
+    runs-on: ubuntu-latest
+    needs: terraform_validate
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    defaults:
+      run:
+        working-directory: ./output
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download tf-output from previous job
+        uses: actions/download-artifact@v2
+        with:
+          name: tf-output
+          path: ./output
+
+      - name: Extract
+        run: tar -xzf tf-output.tar.gz
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - run: ls -lash
+
+      - name: Apply Terraform
+        run: terraform apply -auto-approve -input=false plan.tfplan
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+
+  ansible:
+    name: 'Deploy via Ansible'
+    runs-on: ubuntu-latest
+    needs: terraform_deploy
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    defaults:
+      run:
+        working-directory: ./ansible
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: main.yml
+          directory: ./ansible
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          vault_password: ${{ secrets.ANSIBLE_VAULT_PASS }}
+          inventory: |
+            [do1]
+            ${{ secrets.DO1_SERVER_NAME }} ansible_user=${{ secrets.DO1_SERVER_SUDO_USER }}
+          options: |
+            --extra-vars "ansible_become_pass=${{ secrets.DO1_SERVER_SUDO_PASS }}"

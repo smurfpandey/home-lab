@@ -1,0 +1,29 @@
+- name: Create app directory in /opt/jobs
+  file:
+    path: "{{ app_folder }}"
+    state: directory
+
+- name: Create Google Cloud credentials file
+  template:
+    src: "{{ gcloud_credentials_filename }}.j2"
+    dest: "{{ secrets_folder }}/{{ gcloud_credentials_filename }}"
+
+- name: Create docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ app_folder }}/docker-compose.yml"
+
+- name: Create start script
+  template:
+    src: start-job.sh.j2
+    dest: "{{ app_folder }}/start-job.sh"
+    mode: 'a+x'
+
+- name: Create cronjob for daily execution
+  cron:
+    name: Start ImageDescBot service
+    cron_file: homelab-ImageDescBot
+    minute: "01"
+    hour: "09"
+    user: "{{ ansible_user }}"
+    job: "{{ app_folder }}/start-job.sh"

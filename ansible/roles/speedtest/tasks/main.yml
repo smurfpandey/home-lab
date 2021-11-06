@@ -1,0 +1,30 @@
+---
+
+- name: Create app directory in /opt/jobs
+  file:
+    path: "{{ speedtest_app_directory }}"
+    state: directory
+
+- name: Pull required images from docker hub
+  docker_image:
+    name: "{{ speedtest_image_name }}:{{ speedtest_image_tag }}"
+    source: pull
+
+- name: Create docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ speedtest_app_directory }}/docker-compose.yml"
+
+- name: Create start script
+  template:
+    src: start-job.sh.j2
+    dest: "{{ speedtest_app_directory }}/start-job.sh"
+    mode: 'a+x'
+
+- name: Create cronjob for daily execution
+  cron:
+    name: Start speedtest service
+    cron_file: homelab-speedtest
+    minute: "*/30"
+    user: "{{ ansible_user }}"
+    job: "{{ speedtest_app_directory }}/start-job.sh"

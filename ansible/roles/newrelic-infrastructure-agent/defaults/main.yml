@@ -1,0 +1,16 @@
+---
+
+nrinfragent_os_name: "{{ ansible_os_family }}"
+nrinfragent_os_version: "{{ ansible_lsb.major_release }}"
+nrinfragent_os_codename: "{{ ansible_lsb.codename }}"
+nrinfragent_architecture: "{{ {'x86_64': 'amd64', 'i386': '386', 'armv7l': 'arm'}[ansible_architecture] | default(ansible_architecture) }}"
+nrinfragent_state: "latest"
+nrinfragent_service_enabled: "yes"
+nrinfragent_service_state: "started"
+nrinfragent_config:
+  license_key: "{{ newrelic_license_key }}"
+nrinfragent_tarball_version: "1.19.4"
+nrinfragent_integrations: []
+nrinfragent_tarball_url: "http://download.newrelic.com/infrastructure_agent/binaries/linux/{{ nrinfragent_architecture }}/newrelic-infra_linux_{{ nrinfragent_tarball_version }}_{{ nrinfragent_architecture }}.tar.gz"
+nrinfragent_tarball_download_dir: "/opt"
+nrinfragent_tarball_user: "root"

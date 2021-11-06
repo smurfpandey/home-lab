@@ -1,0 +1,7 @@
+
+rabbitmq_app_directory: '{{ app_root }}/rabbitmq'
+rabbitmq_scripts_directory: '{{ rabbitmq_app_directory }}/scripts'
+rabbitmq_data_directory: '{{ rabbitmq_app_directory }}/data'
+rabbitmq_image_tag: 'rabbitmq:3.9'
+rabbitmq_service_name: 'rabbitmq'
+rabbitmq_expose_on_host: false

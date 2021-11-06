@@ -1,0 +1,15 @@
+version: '3.2'
+
+services:
+  {{ fluentbit_service_name }}:
+    image: {{ fluentbit_image_name }}:{{ fluentbit_image_tag }}
+    container_name: {{ fluentbit_service_name }}
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    volumes:
+      - {{ fluentbit_config_path }}:/fluent-bit/etc/fluent-bit.conf
+      - {{ fluentbit_app_directory }}:{{ fluentbit_app_directory }} # To save tail state
+      - {{ nginx_access_log }}:{{ nginx_access_log }}
+      - {{ nginx_error_log }}:{{ nginx_error_log }}
+      - {{ fail2ban_log }}:{{ fail2ban_log }}

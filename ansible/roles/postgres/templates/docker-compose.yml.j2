@@ -1,0 +1,21 @@
+#jinja2: lstrip_blocks: "True"
+
+version: '3.2'
+
+services:
+  {{ postgres_service_name }}:
+    image: {{ postgres_image_tag }}
+    container_name: {{ postgres_service_name }}
+    {% if postgres_expose_on_host == true %}
+    ports:
+      - "{{ postgres_port }}:5432/tcp"
+    {% endif %}
+    environment:
+      - POSTGRES_PASSWORD={{ postgres_admin_password }}
+      - POSTGRES_USER={{ postgres_admin_user }}
+    volumes:
+      - "pg_db:/var/lib/postgresql/data"
+      - "{{ postgres_scripts_directory }}:/opt/scripts"
+
+volumes:
+  pg_db:

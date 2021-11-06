@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+DB_NAME=${1}
+DB_USER=${2}
+DB_USER_PASS=${3}
+createdb -U {{ postgres_admin_user }} $DB_NAME;
+psql -U {{ postgres_admin_user }} -c "CREATE USER $DB_USER WITH PASSWORD '$DB_USER_PASS';"
+psql -U {{ postgres_admin_user }} -c "grant all privileges on database $DB_NAME to $DB_USER;"
+echo "Postgres User '$DB_USER' and database '$DB_NAME' created."

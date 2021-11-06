@@ -1,0 +1,50 @@
+---
+
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: restart influxdb
+  service:
+    name: influxdb
+    state: restarted
+
+- name: restart grafana
+  service:
+    name: grafana
+    state: restarted
+
+- name: restart netdata
+  service:
+    name: netdata
+    state: restarted
+
+- name: restart postgres
+  service:
+    name: postgres
+    state: restarted
+
+- name: restart rabbitmq
+  service:
+    name: rabbitmq
+    state: restarted
+
+- name: restart pihole
+  service:
+    name: pihole
+    state: restarted
+
+- name: restart youtubedl-ui
+  service:
+    name: youtubedl-ui
+    state: restarted
+
+- name: restart newrelic-infra
+  service:
+    name: newrelic-infra
+    state: restarted
+
+- name: restart fluentbit
+  service:
+    name: fluentbit
+    state: restarted
