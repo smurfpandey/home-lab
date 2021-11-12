@@ -19,5 +19,5 @@ services:
       - TZ=Asia/Kolkata
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /mnt/mediahub/apps/transmission:/config
-      - /mnt/mediahub/data/torrents:/data/torrents
+      - {{ transmission_data_directory }}:/config
+      - {{ transmission_hdd_download_root }}:{{ transmission_container_download_root }}

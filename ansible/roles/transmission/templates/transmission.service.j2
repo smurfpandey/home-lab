@@ -1,10 +1,10 @@
 [Unit]
-Description=Service for sonarr
+Description=Service for transmission
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-WorkingDirectory={{ radarr_app_directory }}
+WorkingDirectory={{ transmission_app_directory }}
 ExecStart={{ docker_compose_binary }} up -d
 ExecStop={{ docker_compose_binary }} stop
 ExecReload={{ docker_compose_binary }} restart
