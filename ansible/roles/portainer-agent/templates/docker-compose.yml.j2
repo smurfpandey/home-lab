@@ -1,0 +1,21 @@
+version: '3.2'
+
+services:
+  {{ portainer_agent_service_name }}:
+    image: {{ portainer_agent_image_name }}:{{ portainer_agent_image_tag }}
+    container_name: {{ portainer_agent_service_name }}
+    labels:
+      traefik.frontend.rule: "Host:portainer_agent.home.smurfpandey.me"
+      traefik.port: "9001"    
+    ports:
+      - "9001:9001/tcp"
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
