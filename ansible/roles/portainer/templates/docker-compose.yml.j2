@@ -1,0 +1,28 @@
+version: '3.2'
+
+services:
+  {{ portainer_service_name }}:
+    image: {{ portainer_image_name }}:{{ portainer_image_tag }}
+    container_name: {{ portainer_service_name }}
+    labels:
+      traefik.frontend.rule: "Host:portainer.home.smurfpandey.me"
+      traefik.port: "9000"    
+    ports:
+      - "8000:8000/tcp"
+      - "9000:9000/tcp"
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - {{ portainer_data_directory }}:/data
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true

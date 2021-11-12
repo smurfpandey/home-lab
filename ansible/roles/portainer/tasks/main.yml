@@ -1,0 +1,37 @@
+---
+
+- name: Create app directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ portainer_app_directory }}"
+    - "{{ portainer_data_directory }}"
+
+- name: Pull required images from docker hub
+  docker_image:
+    name: "{{ portainer_image_name }}:{{ portainer_image_tag }}"
+    source: pull
+
+- name: Create docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ portainer_app_directory }}/docker-compose.yml"
+
+- name: Create app service file
+  template:
+    src: "{{ portainer_service_name }}.service.j2"
+    dest: "{{ portainer_app_directory }}/{{ portainer_service_name }}.service"
+  notify: reload systemd
+  
+- name: Install app service
+  file:
+    src: "{{ portainer_app_directory }}/{{ portainer_service_name }}.service"
+    dest: /etc/systemd/system/{{ portainer_service_name }}.service
+    state: link
+
+- name: ensure app starts on a fresh reboot
+  service:
+    name: "{{ portainer_service_name }}"
+    state: started
+    enabled: yes
