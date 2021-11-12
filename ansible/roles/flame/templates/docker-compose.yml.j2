@@ -1,0 +1,24 @@
+version: '3.2'
+
+services:
+  {{ flame_service_name }}:
+    image: {{ flame_image_name }}:{{ flame_image_tag }}
+    container_name: {{ flame_service_name }}
+    labels:
+      traefik.frontend.rule: "Host:home.smurfpandey.me"
+      traefik.port: "5005"
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - {{ flame_data_directory }}:/app/data
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true

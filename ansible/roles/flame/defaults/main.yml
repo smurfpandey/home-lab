@@ -1,0 +1,7 @@
+---
+
+flame_app_directory: '{{ app_root }}/flame'
+flame_data_directory: '{{ flame_app_directory }}/data'
+flame_image_name: 'pawelmalak/flame'
+flame_image_tag: 'multiarch'
+flame_service_name: 'flame'
