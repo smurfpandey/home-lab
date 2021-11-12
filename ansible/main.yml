@@ -8,6 +8,7 @@
   roles:
     - { role: 'base-requirements' }
     - { role: 'docker', tags: 'docker' }
+    - { role: 'portainer', tags: 'portainer' }
     - { role: 'common' }
     - { role: 'cron-jobs' }
     - { role: 'image-desc-bot' }
@@ -19,6 +20,7 @@
     - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
     - { role: 'telegraf', tags: 'telegraf' }
     - { role: 'chitragupta', tags: 'chitragupta' }
+    - { role: 'flame', tags: 'flame' }
 
 - hosts: pi4
   become: yes
@@ -31,6 +33,7 @@
   roles:
     - { role: 'base-requirements' }
     - { role: 'docker', tags: 'docker' }
+    - { role: 'portainer-agent', tags: 'portainer-agent' }
     - { role: 'mount-hdd' }
     - { role: 'influxdb', tags: [ 'influxdb', 'speedtest' ] }
     - { role: 'postgres', tags: 'postgres' }
