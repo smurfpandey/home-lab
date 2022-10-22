@@ -1,0 +1,15 @@
+[Unit]
+Description=Service for Uptime Kuma
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory={{ uptime_kuma_app_directory }}
+ExecStart={{ docker_compose_binary }} up -d
+ExecStop={{ docker_compose_binary }} stop
+ExecReload={{ docker_compose_binary }} restart
+
+[Install]
+WantedBy=multi-user.target

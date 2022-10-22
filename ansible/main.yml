@@ -5,6 +5,7 @@
     - import_tasks: handlers/main.yml
   vars:
     app_root: '/opt'
+    data_root: '/opt'
   roles:
     - { role: 'base-requirements' }
     - { role: 'docker', tags: 'docker' }
@@ -21,6 +22,7 @@
     - { role: 'telegraf', tags: 'telegraf' }
     - { role: 'chitragupta', tags: 'chitragupta' }
     - { role: 'flame', tags: 'flame' }
+    - { role: 'uptime-kuma', tags: 'uptime-kuma' }
 
 - hosts: pi4
   become: yes
@@ -44,6 +46,7 @@
     - { role: 'radarr', tags: 'radarr' }
     - { role: 'transmission', tags: 'transmission' }
     - { role: 'jellyfin', tags: 'jellyfin' }
+    - { role: 'uptime-kuma', tags: 'uptime-kuma' }
 
 - hosts: do1
   become: yes

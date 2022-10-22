@@ -1,0 +1,14 @@
+version: '3.2'
+services:
+  {{ uptime_kuma_service_name }}:
+    image: {{ uptime_kuma_image_name }}:{{ uptime_kuma_image_tag }}
+    container_name: {{ uptime_kuma_service_name }}
+    labels:
+      traefik.frontend.rule: "Host:uptime.home.smurfpandey.me"
+      traefik.port: "{{ uptime_kuma_ui_port }}"
+    volumes:
+      - {{ uptime_kuma_data_directory }}:/app/data
+    ports:
+      - "{{ uptime_kuma_ui_port }}:3001/tcp"
+    environment:
+      - DATA_DIR={{ uptime_kuma_data_directory }}

@@ -1,0 +1,38 @@
+---
+
+- name: Create app directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ uptime_kuma_app_directory }}"
+    - "{{ uptime_kuma_data_directory }}"
+
+- name: Pull required images from docker hub
+  docker_image:
+    name: "{{ uptime_kuma_image_name }}:{{ uptime_kuma_image_tag }}"
+    source: pull
+
+- name: Create docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ uptime_kuma_app_directory }}/docker-compose.yml"
+  notify: restart uptime-kuma
+
+- name: Create app service file
+  template:
+    src: uptime-kuma.service.j2
+    dest: "{{ uptime_kuma_app_directory }}/uptime-kuma.service"
+  notify: reload systemd
+
+- name: Install app service
+  file:
+    src: "{{ uptime_kuma_app_directory }}/uptime-kuma.service"
+    dest: /etc/systemd/system/uptime-kuma.service
+    state: link
+
+- name: ensure app starts on a fresh reboot
+  service:
+    name: "{{ uptime_kuma_service_name }}"
+    state: started
+    enabled: yes

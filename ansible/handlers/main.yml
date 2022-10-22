@@ -48,3 +48,8 @@
   service:
     name: fluentbit
     state: restarted
+
+- name: restart uptime-kuma
+  service:
+    name: uptime-kuma
+    state: restarted
