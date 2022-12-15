@@ -5,10 +5,12 @@ services:
     image: {{ sonarr_image_name }}:{{ sonarr_image_tag }}
     container_name: {{ sonarr_service_name }}
     labels:
-      traefik.frontend.rule: "Host:sonarr.home.smurfpandey.me"
-      traefik.port: "8989"    
-    ports:
-      - "8989:8989/tcp"
+      - "traefik.enable=true"
+      - "traefik.http.routers.sonarr.rule=Host(`sonarr.{{ main_domain_name }}`)"
+      - "traefik.http.routers.sonarr.entryPoints=websecure"
+      - "traefik.http.routers.sonarr.tls=true"
+      - "traefik.http.routers.sonarr.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
     logging:
       driver: json-file
     environment:
@@ -19,3 +21,9 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /mnt/mediahub/apps/sonarr:/config
       - /mnt/mediahub/data:/data
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true

@@ -5,10 +5,12 @@ services:
     image: {{ radarr_image_name }}:{{ radarr_image_tag }}
     container_name: {{ radarr_service_name }}
     labels:
-      traefik.frontend.rule: "Host:radarr.home.smurfpandey.me"
-      traefik.port: "7878"    
-    ports:
-      - "7878:7878/tcp"
+      - "traefik.enable=true"
+      - "traefik.http.routers.radarr.rule=Host(`radarr.{{ main_domain_name }}`)"
+      - "traefik.http.routers.radarr.entryPoints=websecure"
+      - "traefik.http.routers.radarr.tls=true"
+      - "traefik.http.routers.radarr.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.services.radarr.loadbalancer.server.port=7878"    
     logging:
       driver: json-file
     environment:
@@ -19,3 +21,9 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /mnt/mediahub/apps/radarr:/config
       - /mnt/mediahub/data:/data
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true
