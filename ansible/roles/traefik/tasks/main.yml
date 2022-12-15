@@ -1,0 +1,39 @@
+---
+
+- name: Create app directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ traefik_app_directory }}"
+    - "{{ traefik_data_directory }}"
+    - "{{ traefik_acme_directory }}"
+
+- name: Pull required images from docker hub
+  docker_image:
+    name: "{{ traefik_image_name }}:{{ traefik_image_tag }}"
+    source: pull
+
+- name: Create docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ traefik_app_directory }}/docker-compose.yml"
+  notify: restart traefik
+
+- name: Create app service file
+  template:
+    src: traefik.service.j2
+    dest: "{{ traefik_app_directory }}/traefik.service"
+  notify: reload systemd
+
+- name: Install app service
+  file:
+    src: "{{ traefik_app_directory }}/traefik.service"
+    dest: /etc/systemd/system/traefik.service
+    state: link
+
+- name: ensure app starts on a fresh reboot
+  service:
+    name: "{{ traefik_service_name }}"
+    state: started
+    enabled: yes

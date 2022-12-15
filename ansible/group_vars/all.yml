@@ -10,6 +10,7 @@ influxdb_hostname: 'influxdb.home.smurfpandey.me'
 
 chronograf_port: 5087
 traefik_network_name: proxy
+traefik_certresolver_name: letsencrypt
 netdata_store_name: netdatadb
 netdata_default_port: 19999
 

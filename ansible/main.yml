@@ -6,6 +6,8 @@
   vars:
     app_root: '/opt'
     data_root: '/opt'
+    main_domain_name: 'moon.smurfville.app'
+    sans_domain_name: '*.moon.smurfville.app'
   roles:
     - { role: 'base-requirements' }
     - { role: 'docker', tags: 'docker' }
@@ -32,6 +34,8 @@
     data_root: '/mnt/mediahub/apps'
     app_root: '/opt'
     postgres_expose_on_host: true
+    main_domain_name: 'earth.smurfville.app'
+    sans_domain_name: '*.earth.smurfville.app'
   roles:
     - { role: 'base-requirements' }
     - { role: 'docker', tags: 'docker' }
@@ -47,6 +51,7 @@
     - { role: 'transmission', tags: 'transmission' }
     - { role: 'jellyfin', tags: 'jellyfin' }
     - { role: 'uptime-kuma', tags: 'uptime-kuma' }
+    - { role: 'traefik', tags: 'traefik' }
 
 - hosts: do1
   become: yes

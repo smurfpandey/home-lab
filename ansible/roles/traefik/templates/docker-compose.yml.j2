@@ -1,0 +1,69 @@
+---
+
+version: '3.5'
+
+services:
+  {{ traefik_service_name }}:
+    image: {{ traefik_image_name }}:{{ traefik_image_tag }}
+    container_name: {{ traefik_service_name }}
+    command:
+      # Tell Traefik to discover containers using the Docker API      
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      # Enable the Trafik dashboard      
+      - "--api.dashboard=true"
+      # Set up an insecure listener that redirects all traffic to TLS      
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.websecure.address=:443"
+      # Set up LetsEncrypt
+      - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.email=letsencrypt@smurfpandey.me"      
+      - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.storage=/letsencrypt/acme.json"      
+      - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.dnschallenge=true"
+      - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.dnschallenge.delaybeforecheck=2"      
+      # Set up the TLS configuration for our websecure listener
+      - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.websecure.http.tls.certresolver={{ traefik_certresolver_name }}"
+      - "--entrypoints.websecure.http.tls.domains[0].main={{ main_domain_name }}"
+      - "--entrypoints.websecure.http.tls.domains[0].sans={{ sans_domain_name }}"
+      # Set up ping endpoint
+      - "--entryPoints.ping.address=:8082"
+      - "--ping.entryPoint=ping"
+      # Enable Access Logs
+      - "--accesslog=true"
+      - "--log.level=DEBUG"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.{{ main_domain_name }}`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entryPoints=websecure"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.routers.dashboard.tls.domains[0].main={{ main_domain_name }}"
+      - "traefik.http.routers.dashboard.tls.domains[0].sans={{ sans_domain_name }}"
+    logging:
+      driver: json-file
+    networks:
+      - proxy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata      
+      - CF_DNS_API_TOKEN={{ cloudflare_api_key }}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+      - "8082:8082"
+    volumes:
+      - "{{ traefik_acme_directory }}:/letsencrypt"
+      # So that Traefik can listen to the Docker events
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+networks:
+  proxy:      
+    driver: bridge
+    name: {{ traefik_network_name }}
+

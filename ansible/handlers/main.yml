@@ -53,3 +53,13 @@
   service:
     name: uptime-kuma
     state: restarted
+
+- name: restart traefik
+  service:
+    name: traefik
+    state: restarted
+
+- name: restart jellyfin
+  service:
+    name: jellyfin
+    state: restarted
