@@ -4,11 +4,18 @@ services:
     image: {{ uptime_kuma_image_name }}:{{ uptime_kuma_image_tag }}
     container_name: {{ uptime_kuma_service_name }}
     labels:
-      traefik.frontend.rule: "Host:uptime.home.smurfpandey.me"
-      traefik.port: "{{ uptime_kuma_ui_port }}"
+      - "traefik.enable=true"
+      - "traefik.http.routers.uptime.rule=Host(`uptime.{{ main_domain_name }}`)"
+      - "traefik.http.routers.uptime.entryPoints=websecure"
+      - "traefik.http.routers.uptime.tls=true"
+      - "traefik.http.routers.uptime.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.services.uptime.loadbalancer.server.port=3001"
     volumes:
       - {{ uptime_kuma_data_directory }}:/app/data
-    ports:
-      - "{{ uptime_kuma_ui_port }}:3001/tcp"
-    environment:
-      - DATA_DIR={{ uptime_kuma_data_directory }}
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true
+

@@ -3,9 +3,12 @@ version: '3.2'
 services:
   control-machine:
     image: smurfpandey/ansible-cm:latest
+    env_file:
+      - ./.env    
     environment:
       SUDO_PASS: ${SUDO_PASS}
       VAULT_PASS: ${ANSIBLE_VAULT_PASS}
+      SSH_AUTH_SOCK: /ssh-agent
     volumes:
       - .:/ansible/playbooks
-      - ~/.ssh/id_rsa:/tmp/.ssh/id_rsa:ro
+      - $SSH_AUTH_SOCK:/ssh-agent

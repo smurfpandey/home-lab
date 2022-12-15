@@ -14,6 +14,7 @@
   template:
     src: docker-compose.yml.j2
     dest: "{{ jellyfin_app_directory }}/docker-compose.yml"
+  notify: restart jellyfin
 
 - name: Create app service file
   template:
