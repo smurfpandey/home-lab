@@ -2,5 +2,5 @@
 
 radarr_app_directory: '{{ app_root }}/radarr'
 radarr_image_name: 'linuxserver/radarr'
-radarr_image_tag: 'arm32v7-3.2.2.5080-ls119'
+radarr_image_tag: 'arm32v7-version-4.2.4.6635'
 radarr_service_name: 'radarr'
