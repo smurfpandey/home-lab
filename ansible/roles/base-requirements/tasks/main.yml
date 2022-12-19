@@ -18,4 +18,5 @@
       - debian-archive-keyring
     allow_unauthenticated: true
     install_recommends: no
+    update_cache: true
     state: present

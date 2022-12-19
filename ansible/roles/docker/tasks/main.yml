@@ -1,5 +1,15 @@
 ---
 
+- name: Install dependencies
+  apt:
+    pkg:
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    state: present
+    install_recommends: no
+
 - name: Add Docker apt key
   apt_key:
     url: https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg
@@ -18,24 +28,24 @@
     update_cache: true
   when: docker_repo.changed
 
+- name: Install Docker apt package
+  apt:
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
+    state: present
+    install_recommends: no
+
 - name: Create docker-daemon.json
   template:
     src: "daemon.json"
     dest: "{{ docker_daemon_config_path }}"
 
-- name: Install Docker apt package
-  apt:
-    pkg: docker-ce
-    state: present
-    install_recommends: no
-
 - name: Install python package to working with native anisble modules
   pip:
     name: docker
-
-- name: Install Docker Compose
-  pip:
-    name: docker-compose
 
 - name: add current user to docker group
   user:

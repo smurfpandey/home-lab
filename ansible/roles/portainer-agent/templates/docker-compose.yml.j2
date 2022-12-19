@@ -3,10 +3,7 @@ version: '3.2'
 services:
   {{ portainer_agent_service_name }}:
     image: {{ portainer_agent_image_name }}:{{ portainer_agent_image_tag }}
-    container_name: {{ portainer_agent_service_name }}
-    labels:
-      traefik.frontend.rule: "Host:portainer_agent.home.smurfpandey.me"
-      traefik.port: "9001"    
+    container_name: {{ portainer_agent_service_name }}    
     ports:
       - "9001:9001/tcp"
     logging:

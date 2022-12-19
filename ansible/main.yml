@@ -5,11 +5,11 @@
     - import_tasks: handlers/main.yml
   vars:
     app_root: '/opt'
-    data_root: '/opt'
+    data_root: '/opt/app-data'
     main_domain_name: 'moon.smurfville.app'
     sans_domain_name: '*.moon.smurfville.app'
   roles:
-    - { role: 'base-requirements' }
+    - { role: 'base-requirements', tags: 'base' }
     - { role: 'docker', tags: 'docker' }
     - { role: 'portainer', tags: 'portainer' }
     - { role: 'common' }
@@ -17,7 +17,7 @@
     - { role: 'image-desc-bot' }
     - { role: 'update-gcloud-firewall' }
     - { role: 'grafana' }
-    - { role: 'speedtest', tags: 'speedtest' }
+    # - { role: 'speedtest', tags: 'speedtest' }
     # - { role: 'sync-listenbrainz', tags: 'sync-listenbrainz' }
     - { role: 'pihole', tags: 'pihole' }
     - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
@@ -25,6 +25,7 @@
     - { role: 'chitragupta', tags: 'chitragupta' }
     - { role: 'flame', tags: 'flame' }
     - { role: 'uptime-kuma', tags: 'uptime-kuma' }
+    - { role: 'traefik', tags: 'traefik' }
 
 - hosts: pi4
   become: yes
@@ -37,7 +38,7 @@
     main_domain_name: 'earth.smurfville.app'
     sans_domain_name: '*.earth.smurfville.app'
   roles:
-    - { role: 'base-requirements' }
+    - { role: 'base-requirements', tags: 'base' }
     - { role: 'docker', tags: 'docker' }
     - { role: 'portainer-agent', tags: 'portainer-agent' }
     - { role: 'mount-hdd' }

@@ -1,4 +1,4 @@
 ---
 
-docker_architecture: "{{ {'x86_64': 'amd64', 'i386': '386', 'armv7l': 'armhf'}[ansible_architecture] | default(ansible_architecture) }}"
+docker_architecture: "{{ {'x86_64': 'amd64', 'i386': '386', 'armv7l': 'armhf', 'aarch64': 'arm64'}[ansible_architecture] | default(ansible_architecture) }}"
 docker_daemon_config_path: "/etc/docker/daemon.json"

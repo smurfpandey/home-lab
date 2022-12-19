@@ -3,7 +3,7 @@ pihole_app_directory: '{{ app_root }}/pihole'
 pihole_data_directory: '{{ pihole_app_directory }}/data'
 pihole_appdata_directory: '{{ pihole_data_directory }}/app'
 pihole_dnsmasq_data_directory: '{{ pihole_data_directory }}/dnsmasq'
-pihole_image_tag: 'pihole/pihole:v5.1.2-stretch'
+pihole_image_tag: 'pihole/pihole:2022.11.2'
 pihole_service_name: 'pihole'
 pihole_ui_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256

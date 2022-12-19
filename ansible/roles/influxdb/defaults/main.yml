@@ -2,7 +2,7 @@ influxdb_app_directory: '{{ app_root }}/influxdb'
 influxdb_data_directory: '{{ data_root }}/influxdb'
 influxdb_config_file: 'influxdb.conf'
 influxdb_config_path: '{{ influxdb_data_directory }}/{{ influxdb_config_file }}'
-influxdb_image_tag: 'arm32v7/influxdb:1.8.1'
+influxdb_image_tag: 'arm32v7/influxdb:1.8.10'
 influxdb_service_name: 'influxdb'
 influxdb_container_directory: '/var/lib/influxdb'
 influxdb_admin_password: !vault |

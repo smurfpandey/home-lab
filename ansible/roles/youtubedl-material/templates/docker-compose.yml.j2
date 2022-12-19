@@ -4,8 +4,13 @@ services:
   {{ youtubedl_service_name }}:
     image: {{ youtubedl_image_tag }}
     container_name: {{ youtubedl_service_name }}
-    ports:
-      - "{{ youtubedl_ui_port }}:17442/tcp"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.youtube.rule=Host(`youtube-dl.{{ main_domain_name }}`)"
+      - "traefik.http.routers.youtube.entryPoints=websecure"
+      - "traefik.http.routers.youtube.tls=true"
+      - "traefik.http.routers.youtube.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.services.youtube.loadbalancer.server.port=17442"    
     user: "1000:1000"
     environment:
       - UID=1000
@@ -17,3 +22,10 @@ services:
       - {{ youtubedl_download_video_directory }}:/app/video
       - {{ youtubedl_subsdata_directory }}:/app/subscriptions
       - {{ youtubedl_usersdata_directory }}:/app/users
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true
+
