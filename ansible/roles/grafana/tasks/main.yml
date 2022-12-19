@@ -56,7 +56,12 @@
     dest: "{{ grafana_app_directory }}/grafana.service"
     owner: "{{ grafana_user_username }}"
     group: "{{ grafana_user_groupname }}"
-  notify: reload systemd
+  register: grafana_service_file
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  when: grafana_service_file.changed
 
 - name: Install app service
   file:

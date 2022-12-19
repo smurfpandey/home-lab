@@ -20,7 +20,12 @@
   template:
     src: "{{ jellyfin_service_name }}.service.j2"
     dest: "{{ jellyfin_app_directory }}/{{ jellyfin_service_name }}.service"
-  notify: reload systemd
+  register: jellyfin_service_file
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  when: jellyfin_service_file.changed
   
 - name: Install app service
   file:

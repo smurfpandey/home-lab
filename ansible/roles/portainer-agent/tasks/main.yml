@@ -21,7 +21,12 @@
   template:
     src: "{{ portainer_agent_service_name }}.service.j2"
     dest: "{{ portainer_agent_app_directory }}/{{ portainer_agent_service_name }}.service"
-  notify: reload systemd
+  register: portainer_agent_service_file
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  when: portainer_agent_service_file.changed
   
 - name: Install app service
   file:

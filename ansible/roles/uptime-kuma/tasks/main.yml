@@ -23,7 +23,12 @@
   template:
     src: uptime-kuma.service.j2
     dest: "{{ uptime_kuma_app_directory }}/uptime-kuma.service"
-  notify: reload systemd
+  register: uptime_kuma_service_file
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  when: uptime_kuma_service_file.changed
 
 - name: Install app service
   file:

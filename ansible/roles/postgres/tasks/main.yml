@@ -26,7 +26,12 @@
   template:
     src: postgres.service.j2
     dest: "{{ postgres_app_directory }}/postgres.service"
-  notify: reload systemd
+  register: postgres_service_file
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  when: postgres_service_file.changed
 
 - name: Install app service
   file:

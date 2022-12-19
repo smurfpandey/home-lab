@@ -19,7 +19,12 @@
   template:
     src: "{{ chitragupta_service_name }}.service.j2"
     dest: "{{ chitragupta_app_directory }}/{{ chitragupta_service_name }}.service"
-  notify: reload systemd
+  register: chitragupta_service_file
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  when: chitragupta_service_file.changed
   
 - name: Install app service
   file:

@@ -19,7 +19,12 @@
   template:
     src: "{{ sonarr_service_name }}.service.j2"
     dest: "{{ sonarr_app_directory }}/{{ sonarr_service_name }}.service"
-  notify: reload systemd
+  register: sonarr_service_file
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  when: sonarr_service_file.changed
   
 - name: Install app service
   file:

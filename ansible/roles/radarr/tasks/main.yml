@@ -19,7 +19,12 @@
   template:
     src: "{{ radarr_service_name }}.service.j2"
     dest: "{{ radarr_app_directory }}/{{ radarr_service_name }}.service"
-  notify: reload systemd
+  register: radarr_service_file
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  when: radarr_service_file.changed
   
 - name: Install app service
   file:

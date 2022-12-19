@@ -30,7 +30,12 @@
   template:
     src: "{{ fluentbit_service_name }}.service.j2"
     dest: "{{ fluentbit_app_directory }}/{{ fluentbit_service_name }}.service"
-  notify: reload systemd
+  register: fluentbit_service_file
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  when: fluentbit_service_file.changed
 
 - name: Install app service
   file:

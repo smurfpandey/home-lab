@@ -32,7 +32,12 @@
     template:
       src: "{{ youtubedl_service_name }}.service.j2"
       dest: "{{ youtubedl_app_directory }}/{{ youtubedl_service_name }}.service"
-    notify: reload systemd
+    register: youtubedl_service_file
+
+  - name: Reload systemd daemon
+    systemd:
+      daemon_reload: yes
+    when: youtubedl_service_file.changed
   
   - name: Install app service
     file:

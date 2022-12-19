@@ -34,7 +34,12 @@
   template:
     src: influxdb.service.j2
     dest: "{{ influxdb_app_directory }}/influxdb.service"
-  notify: reload systemd
+  register: influx_service_file
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  when: influx_service_file.changed
 
 - name: Install app service
   file:

@@ -24,7 +24,12 @@
   template:
     src: "{{ transmission_service_name }}.service.j2"
     dest: "{{ transmission_app_directory }}/{{ transmission_service_name }}.service"
-  notify: reload systemd
+  register: transmission_service_file
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  when: transmission_service_file.changed
   
 - name: Install app service
   file:
