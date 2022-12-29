@@ -1,0 +1,51 @@
+---
+
+- name: Log where are we running
+  debug:
+    msg: "The distro is: {{ ansible_distribution|lower }} and the version name is: {{ ansible_distribution_release }}"
+
+- name: Create app directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items: "{{ app_directories }}"
+
+- name: Pull required images from docker hub
+  docker_image:
+    name: "{{ item }}"
+    source: pull
+  with_items: "{{ app_docker_images }}"
+
+- name: Create config files
+  template:
+    src: "{{ item.src }}.j2"
+    dest: "{{ item.dest }}"
+  loop: "{{ app_config_files }}"
+
+- name: Create docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ app_directory }}/docker-compose.yml"
+
+- name: Create app service file
+  template:
+    src: "{{ app_name }}.service.j2"
+    dest: "{{ app_directory }}/{{ app_name }}.service"
+  register: app_service_file
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+  when: app_service_file.changed
+
+- name: Install app service
+  file:
+    src: "{{ app_directory }}/{{ app_name }}.service"
+    dest: /etc/systemd/system/{{ app_name }}.service
+    state: link
+
+- name: ensure app starts on a fresh reboot
+  service:
+    name: "{{ app_name }}"
+    state: started
+    enabled: yes
