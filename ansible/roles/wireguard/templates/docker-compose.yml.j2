@@ -1,0 +1,19 @@
+version: '3.2'
+
+services:
+  {{ wireguard_service_name }}:
+    image: {{ wireguard_image_tag }}
+    container_name: {{ wireguard_service_name }}    
+    logging:
+      driver: json-file
+    ports:
+      - "51820:51820/udp"
+    environment:
+      - TZ='Asia/Kolkata'
+      - PEERS=10
+    volumes:
+      - '{{ wireguard_config_directory }}:/config'
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
