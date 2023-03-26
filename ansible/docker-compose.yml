@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
   control-machine:
-    image: smurfpandey/ansible-cm:latest
+    image: ghcr.io/smurfpandey/ansible-control-machine:2c141756
     env_file:
       - ./.env    
     environment:
