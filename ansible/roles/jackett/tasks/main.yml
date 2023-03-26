@@ -1,0 +1,15 @@
+---
+
+- name: Do the generic stuff
+  ansible.builtin.include_role:
+    name: generic-deploy-docker-app
+  vars:
+    app_name: "{{ jackett_service_name }}"
+    app_directory: "{{ jackett_app_directory }}"
+    app_directories:
+      - "{{ jackett_app_directory }}"
+      - "{{ jackett_config_directory }}"
+      - "{{ jackett_data_directory }}"
+    app_config_files: []
+    app_docker_images:
+      - "{{ jackett_image_tag }}"

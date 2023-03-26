@@ -1,0 +1,29 @@
+version: '3.2'
+
+services:
+  {{ jackett_service_name }}:
+    image: {{ jackett_image_tag }}
+    container_name: {{ jackett_service_name }}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jackett.rule=Host(`jackett.{{ main_domain_name }}`)"
+      - "traefik.http.routers.jackett.entryPoints=websecure"
+      - "traefik.http.routers.jackett.tls=true"
+      - "traefik.http.routers.jackett.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.services.jackett.loadbalancer.server.port=9117"    
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - {{ jackett_config_directory }}:/config
+      - {{ jackett_data_directory }}:/downloads
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true

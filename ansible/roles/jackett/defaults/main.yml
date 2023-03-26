@@ -1,0 +1,7 @@
+---
+
+jackett_app_directory: '{{ app_root }}/jackett'
+jackett_config_directory: '{{ jackett_app_directory }}/config'
+jackett_data_directory: '{{ jackett_app_directory }}/data'
+jackett_image_tag: 'lscr.io/linuxserver/jackett:arm32v7-version-v0.20.3682'
+jackett_service_name: 'jackett'
