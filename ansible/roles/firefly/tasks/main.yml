@@ -1,0 +1,14 @@
+---
+
+- name: Do the generic stuff
+  ansible.builtin.include_role:
+    name: generic-deploy-docker-app
+  vars:
+    app_name: "{{ firefly_service_name }}"
+    app_directory: "{{ firefly_app_directory }}"
+    app_directories:
+      - "{{ firefly_app_directory }}"
+      - "{{ firefly_data_directory }}"
+    app_config_files: []
+    app_docker_images:
+      - "{{ firefly_image_tag }}"

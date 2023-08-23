@@ -9,11 +9,15 @@ services:
     ports:
       - "51820:51820/udp"
     environment:
-      - TZ='Asia/Kolkata'
-      - PEERS=10
+      - PUID=1000
+      - PGID=1000
+      - TZ='Europe/London'
+      - PEERS=myPhone,myMac      
+      - SERVERURL=vpn.home.smurfville.app
     volumes:
       - '{{ wireguard_config_directory }}:/config'
     cap_add:
       - NET_ADMIN
+      - SYS_MODULE
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1

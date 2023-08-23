@@ -26,6 +26,8 @@
     - { role: 'flame', tags: 'flame' }
     - { role: 'uptime-kuma', tags: 'uptime-kuma' }
     - { role: 'traefik', tags: 'traefik' }
+    - { role: 'wireguard', tags: 'wireguard' }
+    - { role: 'jackett', tags: 'jackett' }
 
 - hosts: pi4
   become: yes
@@ -53,6 +55,7 @@
     - { role: 'jellyfin', tags: 'jellyfin' }
     - { role: 'uptime-kuma', tags: 'uptime-kuma' }
     - { role: 'traefik', tags: 'traefik' }
+    - { role: 'firefly', tags: 'firefly' }
 
 - hosts: do1
   become: yes

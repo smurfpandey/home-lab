@@ -4,11 +4,13 @@
   file:
     path: "{{ speedtest_app_directory }}"
     state: directory
+    state: absent
 
 - name: Pull required images from docker hub
   docker_image:
     name: "{{ speedtest_image_name }}:{{ speedtest_image_tag }}"
     source: pull
+    state: absent
 
 - name: Create docker-compose.yml
   template:
@@ -28,3 +30,4 @@
     minute: "*/30"
     user: "{{ ansible_user }}"
     job: "{{ speedtest_app_directory }}/start-job.sh"
+    state: absent

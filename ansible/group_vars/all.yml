@@ -14,7 +14,7 @@ netdata_store_name: netdatadb
 netdata_default_port: 19999
 
 postgres_port: 5432
-postgres_host: 192.168.1.210
+postgres_host: 192.168.0.210
 
 youtubedl_ui_port: 5050
 pihole_ui_port: 6080

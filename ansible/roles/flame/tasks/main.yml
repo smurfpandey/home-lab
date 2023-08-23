@@ -3,7 +3,7 @@
 - name: Create app directory
   file:
     path: "{{ item }}"
-    state: directory
+    state: absent
   with_items:
     - "{{ flame_app_directory }}"
     - "{{ flame_data_directory }}"
@@ -12,26 +12,27 @@
   docker_image:
     name: "{{ flame_image_name }}:{{ flame_image_tag }}"
     source: pull
+    state: absent
 
-- name: Create docker-compose.yml
-  template:
-    src: docker-compose.yml.j2
-    dest: "{{ flame_app_directory }}/docker-compose.yml"
+# - name: Create docker-compose.yml
+#   template:
+#     src: docker-compose.yml.j2
+#     dest: "{{ flame_app_directory }}/docker-compose.yml"
 
-- name: Create app service file
-  template:
-    src: "{{ flame_service_name }}.service.j2"
-    dest: "{{ flame_app_directory }}/{{ flame_service_name }}.service"
-  notify: reload systemd
+# - name: Create app service file
+#   template:
+#     src: "{{ flame_service_name }}.service.j2"
+#     dest: "{{ flame_app_directory }}/{{ flame_service_name }}.service"
+#   notify: reload systemd
   
 - name: Install app service
   file:
     src: "{{ flame_app_directory }}/{{ flame_service_name }}.service"
     dest: /etc/systemd/system/{{ flame_service_name }}.service
-    state: link
+    state: absent
 
 - name: ensure app starts on a fresh reboot
   service:
     name: "{{ flame_service_name }}"
-    state: started
+    state: stopped
     enabled: yes

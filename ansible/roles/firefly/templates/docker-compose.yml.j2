@@ -1,0 +1,39 @@
+version: '3.2'
+
+services:
+  {{ firefly_service_name }}:
+    image: {{ firefly_image_tag }}
+    container_name: {{ firefly_service_name }}    
+    logging:
+      driver: json-file
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.firefly.rule=Host(`firefly.{{ main_domain_name }}`)"
+      - "traefik.http.routers.firefly.entryPoints=websecure"
+      - "traefik.http.routers.firefly.tls=true"
+      - "traefik.http.routers.firefly.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.services.firefly.loadbalancer.server.port=8080"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ='UTC'
+      - APP_ENV=heroku
+      - APP_KEY='SomeRandomStringOf32CharsExactly'
+      - DB_HOST='{{ postgres_host }}'
+      - DB_PORT='{{ postgres_port }}'
+      - DB_CONNECTION='pgsql'
+      - DB_DATABASE='firefly'
+      - DB_USERNAME='firefly'
+      - DB_PASSWORD='fcMVTtwG62rtLDJit'
+      - TRUSTED_PROXIES=**
+      - APP_URL=https://firefly.{{ main_domain_name }}
+    volumes:
+      - {{ firefly_data_directory }}/upload:/var/www/html/storage/upload
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true
+
+    

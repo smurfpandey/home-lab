@@ -17,6 +17,7 @@ services:
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.websecure.address=:443"
+      - "--entryPoints.web.forwardedHeaders.insecure"
       # Set up LetsEncrypt
       - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.email=letsencrypt@smurfpandey.me"      
       - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.storage=/letsencrypt/acme.json"      
@@ -28,12 +29,13 @@ services:
       - "--entrypoints.websecure.http.tls.certresolver={{ traefik_certresolver_name }}"
       - "--entrypoints.websecure.http.tls.domains[0].main={{ main_domain_name }}"
       - "--entrypoints.websecure.http.tls.domains[0].sans={{ sans_domain_name }}"
+      - "--entryPoints.websecure.forwardedHeaders.insecure"
       # Set up ping endpoint
       - "--entryPoints.ping.address=:8082"
       - "--ping.entryPoint=ping"
       # Enable Access Logs
       - "--accesslog=true"
-      - "--log.level=DEBUG"
+      - "--log.level=INFO"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`traefik.{{ main_domain_name }}`)"
@@ -61,6 +63,21 @@ services:
       - "{{ traefik_acme_directory }}:/letsencrypt"
       # So that Traefik can listen to the Docker events
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  web-request-debugger:
+    image: mendhak/http-https-echo:26
+    container_name: web-request-debugger
+    logging:
+      driver: json-file
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.webdebug.rule=Host(`webdebug.{{ main_domain_name }}`)"
+      - "traefik.http.routers.webdebug.entryPoints=websecure"
+      - "traefik.http.routers.webdebug.tls=true"
+      - "traefik.http.routers.webdebug.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.services.webdebug.loadbalancer.server.port=8080"
+    networks:
+      - proxy
 
 networks:
   proxy:      
