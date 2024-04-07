@@ -2,5 +2,5 @@
 
 firefly_app_directory: '{{ app_root }}/firefly'
 firefly_data_directory: '{{ data_root }}/firefly'
-firefly_image_tag: 'fireflyiii/core:version-6.0.7'
+firefly_image_tag: 'fireflyiii/core:version-6.1.13'
 firefly_service_name: 'firefly'

@@ -2,5 +2,5 @@
 
 portainer_agent_app_directory: '{{ app_root }}/portainer-agent'
 portainer_agent_image_name: 'portainer/agent'
-portainer_agent_image_tag: 'linux-arm-2.16.2'
+portainer_agent_image_tag: 'linux-arm-2.19.4'
 portainer_agent_service_name: 'portainer_agent'

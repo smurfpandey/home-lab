@@ -3,5 +3,5 @@
 portainer_app_directory: '{{ app_root }}/portainer'
 portainer_data_directory: '{{ portainer_app_directory }}/data'
 portainer_image_name: 'portainer/portainer-ce'
-portainer_image_tag: 'linux-arm-2.16.2'
+portainer_image_tag: 'linux-arm-2.19.4'
 portainer_service_name: 'portainer'

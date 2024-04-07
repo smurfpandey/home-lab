@@ -4,7 +4,7 @@ traefik_app_directory: '{{ app_root }}/traefik'
 traefik_data_directory: '{{ traefik_app_directory }}/data'
 traefik_acme_directory: '{{ traefik_app_directory }}/letsencrypt'
 traefik_image_name: 'arm32v6/traefik'
-traefik_image_tag: 'v2.9.5'
+traefik_image_tag: 'v2.11'
 traefik_service_name: 'traefik'
 
 cloudflare_api_email: "{{ lookup('env','cloudflare_api_email') }}"
