@@ -1,0 +1,15 @@
+---
+- name: Check if certificate already exists.
+  stat:
+    path: "{{ letsencrypt_cert_location }}/live/{{ certbot_domains | first | replace('*.', '') }}/cert.pem"
+  register: letsencrypt_cert
+
+- name: Get certificate for neerajverma.dev
+  command: >
+    certbot certonly
+    --dns-cloudflare
+    --dns-cloudflare-credentials {{ cloudflare_credentials }}
+    --domains {{ certbot_domains|join(',') }}
+  when: not letsencrypt_cert.stat.exists
+  register: certbot_dns
+  changed_when: not "no action taken" in certbot_dns.stdout

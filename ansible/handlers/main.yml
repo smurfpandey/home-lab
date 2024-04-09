@@ -63,3 +63,6 @@
   service:
     name: jellyfin
     state: restarted
+
+- name: reload nginx
+  command: docker kill --signal=HUP nginx

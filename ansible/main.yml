@@ -82,3 +82,6 @@
     - { role: 'fluentbit', tags: 'fluent' }
     - { role: 'postgres', tags: 'postgres' }
     - { role: 'rabbitmq', tags: 'rabbitmq' }
+    - { role: 'healthcheck', tags: 'healthcheck' }
+    - { role: 'ssl-smurfville_app', tags: 'ssl-smurfville' }
+    - { role: 'wg-easy', tags: 'wg-easy' }

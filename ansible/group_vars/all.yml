@@ -30,3 +30,8 @@ newrelic_license_key: !vault |
           3036633134313861610a623632663564653930656635363766333838386637336336316437373762
           63646236396634383034613763303263383930653337316364333239646331653232343463323834
           6135393734613132616366646365613936333730356263393135
+
+letsencrypt_cert_location: /etc/letsencrypt
+cloudflare_credentials: '/opt/certbot/cloudflare_credentials.ini'
+nginx_config_directory: '/opt/nginx/config'
+nginx_network_name: nginx_default

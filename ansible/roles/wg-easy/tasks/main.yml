@@ -1,0 +1,21 @@
+---
+
+- name: Do the generic stuff
+  ansible.builtin.include_role:
+    name: generic-deploy-docker-app
+  vars:
+    app_name: "{{ wg_easy_service_name }}"
+    app_directory: "{{ wg_easy_app_directory }}"
+    app_directories:
+      - "{{ wg_easy_app_directory }}"
+      - "{{ wg_easy_data_directory }}"
+      - "{{ wg_easy_config_directory }}"
+    app_config_files: []
+    app_docker_images:
+      - "{{ wg_easy_image_tag }}"
+
+- name: Create nginx config for webui
+  template:
+    src: nginx.conf.j2
+    dest: "{{ nginx_config_directory }}/wg-smurfville-app.conf"
+  notify: reload nginx

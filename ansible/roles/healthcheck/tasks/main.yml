@@ -1,0 +1,5 @@
+---
+
+- name: Log where are we running
+  debug:
+    msg: "The distro is: {{ ansible_distribution|lower }} and the version name is: {{ ansible_distribution_release }}"

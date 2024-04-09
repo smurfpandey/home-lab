@@ -1,0 +1,17 @@
+---
+
+wg_easy_app_directory: '{{ app_root }}/wg-easy'
+wg_easy_data_directory: '{{ data_root }}/wg-easy'
+wg_easy_config_directory: '{{ wg_easy_data_directory }}/config'
+wg_easy_image_tag: 'ghcr.io/wg-easy/wg-easy:12'
+wg_easy_service_name: 'wg-easy'
+wg_easy_ui_domain_name: 'wg.smurfville.app'
+letsencrypt_cert_name: 'smurfville.app'
+wg_easy_app_port: 51821
+wg_easy_ui_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          64343431626133303531363930653332643465343463643365356434393134376565646365646237
+          6633633835376366303864346636653866663533613061660a373132656639656131616431393161
+          35643637393832623632356637356466663562653763626431303563343064356534306563633463
+          6661616239643338640a663134623064666333356564353531303965323135323132323533356339
+          65666436656364333364393963363835376165653233653065323238666637323237
