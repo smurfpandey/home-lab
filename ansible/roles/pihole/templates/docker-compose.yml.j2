@@ -17,10 +17,10 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
       - "67:67/udp"
-      - "{{ pihole_ui_port }}:80/tcp"    
+      - "{{ pihole_ui_port }}:6080/tcp"    
     environment:
       - WEB_PORT={{ pihole_ui_port }}
-      - TZ='Asia/Kolkata'
+      - TZ='Etc/UTC'
       - WEBPASSWORD={{ pihole_ui_password }}
     volumes:
       - '{{ pihole_appdata_directory }}/:/etc/pihole/'

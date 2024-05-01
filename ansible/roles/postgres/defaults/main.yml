@@ -2,7 +2,7 @@
 postgres_app_directory: '{{ app_root }}/postgres'
 postgres_scripts_directory: '{{ postgres_app_directory }}/scripts'
 postgres_backup_directory: '{{ data_root }}/postgres/backup'
-postgres_image_tag: 'postgres:12.4'
+postgres_image_tag: 'postgres:16.2-alpine3.18'
 postgres_service_name: 'postgres'
 postgres_admin_user: 'admin'
 postgres_expose_on_host: false

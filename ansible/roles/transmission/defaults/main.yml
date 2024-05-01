@@ -3,7 +3,7 @@
 transmission_app_directory: '{{ app_root }}/transmission'
 transmission_data_directory: '{{ data_root }}/transmission'
 transmission_image_name: 'linuxserver/transmission'
-transmission_image_tag: 'arm32v7-3.00-r6-ls146'
+transmission_image_tag: 'arm64v8-4.0.5'
 transmission_service_name: 'transmission'
 transmission_hdd_download_root: /mnt/mediahub/data/torrents
 transmission_container_download_root: /data/torrents

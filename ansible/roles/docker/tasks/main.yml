@@ -43,13 +43,13 @@
     src: "daemon.json"
     dest: "{{ docker_daemon_config_path }}"
 
-- name: Install python package to working with native anisble modules
-  pip:
-    name: docker
-
 - name: add current user to docker group
   user:
     name: "{{ ansible_user }}"
     groups:
       - docker
     append: yes
+
+# - name: Install python package to working with native anisble modules
+#   pip:
+#     name: docker

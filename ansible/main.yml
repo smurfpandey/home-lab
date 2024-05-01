@@ -11,6 +11,7 @@
   roles:
     - { role: 'base-requirements', tags: 'base' }
     - { role: 'docker', tags: 'docker' }
+    - { role: 'traefik', tags: 'traefik' }
     - { role: 'portainer', tags: 'portainer' }
     - { role: 'common' }
     - { role: 'cron-jobs' }
@@ -25,7 +26,6 @@
     - { role: 'chitragupta', tags: 'chitragupta' }
     - { role: 'flame', tags: 'flame' }
     - { role: 'uptime-kuma', tags: 'uptime-kuma' }
-    - { role: 'traefik', tags: 'traefik' }
     - { role: 'jackett', tags: 'jackett' }
 
 - hosts: pi4
@@ -39,12 +39,13 @@
     main_domain_name: 'earth.smurfville.app'
     sans_domain_name: '*.earth.smurfville.app'
   roles:
+    - { role: 'mount-hdd', tags: 'mount-hdd' }
     - { role: 'base-requirements', tags: 'base' }
     - { role: 'docker', tags: 'docker' }
-    - { role: 'portainer-agent', tags: 'portainer-agent' }
-    - { role: 'mount-hdd' }
-    - { role: 'influxdb', tags: [ 'influxdb', 'speedtest' ] }
     - { role: 'postgres', tags: 'postgres' }
+    - { role: 'traefik', tags: 'traefik' }
+    - { role: 'portainer-agent', tags: 'portainer-agent' }
+    - { role: 'influxdb', tags: [ 'influxdb', 'speedtest' ] }
     - { role: 'youtubedl-material', tags: 'youtubedl-material' }
     - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
     - { role: 'telegraf', tags: 'telegraf' }
@@ -53,7 +54,6 @@
     - { role: 'transmission', tags: 'transmission' }
     - { role: 'jellyfin', tags: 'jellyfin' }
     - { role: 'uptime-kuma', tags: 'uptime-kuma' }
-    - { role: 'traefik', tags: 'traefik' }
     - { role: 'firefly', tags: 'firefly' }
 
 - hosts: do1

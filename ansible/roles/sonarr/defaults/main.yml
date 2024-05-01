@@ -2,5 +2,5 @@
 
 sonarr_app_directory: '{{ app_root }}/sonarr'
 sonarr_image_name: 'linuxserver/sonarr'
-sonarr_image_tag: 'arm32v7-version-3.0.9.1549'
+sonarr_image_tag: 'arm64v8-4.0.4'
 sonarr_service_name: 'sonarr'
