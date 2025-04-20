@@ -1,0 +1,14 @@
+---
+- name: Do the generic stuff
+  ansible.builtin.include_role:
+    name: generic-deploy-docker-app
+  vars:
+    app_name: "{{ bazarr_service_name }}"
+    app_directory: "{{ bazarr_app_directory }}"
+    app_directories:
+      - "{{ bazarr_app_directory }}"
+      - "{{ bazarr_config_directory }}"
+      - "{{ bazarr_data_directory }}"
+    app_config_files: []
+    app_docker_images:
+      - "{{ bazarr_image_tag }}"

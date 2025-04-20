@@ -19,3 +19,5 @@
     src: nginx.conf.j2
     dest: "{{ nginx_config_directory }}/wg-smurfville-app.conf"
   notify: reload nginx
+
+

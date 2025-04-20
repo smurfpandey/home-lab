@@ -6,6 +6,8 @@ services:
       - WG_HOST={{ wg_easy_ui_domain_name }}
       - UI_TRAFFIC_STATS=true
       - PASSWORD={{ wg_easy_ui_password }}
+      # - WG_DEFAULT_ADDRESS=10.6.0.x
+      # - WG_ALLOWED_IPS=10.6.0.0/24, 192.168.0.108/32
     image: ghcr.io/wg-easy/wg-easy
     container_name: wg-easy
     volumes:

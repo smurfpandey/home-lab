@@ -1,0 +1,7 @@
+---
+
+wireguard_app_directory: '{{ app_root }}/wireguard'
+wireguard_data_directory: '{{ data_root }}/wireguard'
+wireguard_config_directory: '{{ wireguard_data_directory }}/config'
+wireguard_image_tag: 'linuxserver/wireguard:1.0.20210914'
+wireguard_service_name: 'wireguard'

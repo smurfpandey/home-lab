@@ -1,0 +1,30 @@
+version: '3.2'
+
+services:
+  bazarr:
+    image: linuxserver/bazarr:arm64v8-1.4.5
+    container_name: bazarr
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bazarr.rule=Host(`bazarr.earth.smurfville.app`)"
+      - "traefik.http.routers.bazarr.entryPoints=websecure"
+      - "traefik.http.routers.bazarr.tls=true"
+      - "traefik.http.routers.bazarr.tls.certresolver=letsencrypt"
+      - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/mediahub/apps/bazarr:/config
+      - /mnt/mediahub/data/media/movies:/movies
+      - /mnt/mediahub/data/media/series:/tv
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

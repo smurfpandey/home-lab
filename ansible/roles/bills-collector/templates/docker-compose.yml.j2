@@ -1,0 +1,35 @@
+version: '3.2'
+
+services:
+  {{ bills_collector_service_name }}:
+    image: {{ bills_collector_image_tag }}
+    container_name: {{ bills_collector_service_name }}    
+    logging:
+      driver: json-file
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bills_collector.rule=Host(`bills.{{ main_domain_name }}`)"
+      - "traefik.http.routers.bills_collector.entryPoints=websecure"
+      - "traefik.http.routers.bills_collector.tls=true"
+      - "traefik.http.routers.bills_collector.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.services.bills_collector.loadbalancer.server.port=8080"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ='UTC'
+      - ENV=production
+      - CONFIG_TYPE=bills_collector.config.ProductionConfig
+      - SECRET_KEY='SomeRandomStringOf32CharsExactly'
+      - DATABASE_URL='postgresql+psycopg://myuser:mypassword@{{ postgres_host }}:{{ postgres_port }}/bills_collector'      
+      - APP_BASE_URL=https://bills.{{ main_domain_name }}
+      - GOOGLE_CLIENT_ID=''
+      - GOOGLE_CLIENT_SECRET=''
+      - CELERY_BROKER_URL=''
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true
+
+    

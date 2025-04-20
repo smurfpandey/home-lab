@@ -1,0 +1,6 @@
+---
+
+bills_collector_app_directory: '{{ app_root }}/bills-collector'
+bills_collector_data_directory: '{{ data_root }}/bills-collector'
+bills_collector_image_tag: 'ghcr.io/smurfpandey/bills-collector:00ff44ae'
+bills_collector_service_name: 'bills-collector'
