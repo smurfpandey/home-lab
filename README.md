@@ -12,9 +12,9 @@ Ansible playbooks to setup home-server on a raspberry pi
 > export "ANSIBLE_VAULT_PASS=<vault pass>"
 
 # 3. Run control machine via docker-compose
-> docker-compose run --rm control-machine --vault-password-file /tmp/ansible_vault_pass site.yml -i hosts.ini
+> podman compose run --rm control-machine --vault-password-file /tmp/ansible_vault_pass site.yml -i hosts.ini
 ```
 
 ```
-docker-compose run --rm --entrypoint "ansible-vault encrypt_string --stdin-name cloudflare_api_token" control-machine
+podman compose run --rm --entrypoint "ansible-vault encrypt_string --stdin-name cloudflare_api_token" control-machine
 ```

@@ -1,0 +1,14 @@
+---
+
+- name: Do the generic stuff
+  ansible.builtin.include_role:
+    name: generic-deploy-docker-app
+  vars:
+    app_name: "{{ sure_service_name }}"
+    app_directory: "{{ sure_app_directory }}"
+    app_directories:
+      - "{{ sure_app_directory }}"
+      - "{{ sure_data_directory }}"
+    app_config_files: []
+    app_docker_images:
+      - "{{ sure_image_tag }}"

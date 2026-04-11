@@ -9,23 +9,11 @@
     main_domain_name: 'moon.smurfville.app'
     sans_domain_name: '*.moon.smurfville.app'
   roles:
+    - { role: 'ping-me' }
     - { role: 'base-requirements', tags: 'base' }
     - { role: 'docker', tags: 'docker' }
     - { role: 'traefik', tags: 'traefik' }
-    - { role: 'portainer', tags: 'portainer' }
-    - { role: 'common' }
-    - { role: 'cron-jobs' }
-    - { role: 'image-desc-bot' }
-    - { role: 'update-gcloud-firewall' }
-    - { role: 'grafana' }
-    # - { role: 'speedtest', tags: 'speedtest' }
-    # - { role: 'sync-listenbrainz', tags: 'sync-listenbrainz' }
     - { role: 'pihole', tags: 'pihole' }
-    - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
-    - { role: 'telegraf', tags: 'telegraf' }
-    - { role: 'chitragupta', tags: 'chitragupta' }
-    - { role: 'flame', tags: 'flame' }
-    - { role: 'uptime-kuma', tags: 'uptime-kuma' }
     - { role: 'jackett', tags: 'jackett' }
 
 - hosts: pi4
@@ -39,49 +27,13 @@
     main_domain_name: 'earth.smurfville.app'
     sans_domain_name: '*.earth.smurfville.app'
   roles:
+    - { role: 'ping-me' }
     - { role: 'mount-hdd', tags: 'mount-hdd' }
     - { role: 'base-requirements', tags: 'base' }
     - { role: 'docker', tags: 'docker' }
     - { role: 'postgres', tags: 'postgres' }
     - { role: 'traefik', tags: 'traefik' }
-    - { role: 'portainer-agent', tags: 'portainer-agent' }
-    - { role: 'influxdb', tags: [ 'influxdb', 'speedtest' ] }
-    - { role: 'youtubedl-material', tags: 'youtubedl-material' }
-    - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
-    - { role: 'telegraf', tags: 'telegraf' }
     - { role: 'sonarr', tags: 'sonarr' }
     - { role: 'radarr', tags: 'radarr' }
     - { role: 'transmission', tags: 'transmission' }
     - { role: 'jellyfin', tags: 'jellyfin' }
-    - { role: 'uptime-kuma', tags: 'uptime-kuma' }
-    - { role: 'firefly', tags: 'firefly' }
-
-- hosts: do1
-  become: yes
-  handlers:
-    - import_tasks: handlers/main.yml
-  vars:
-    app_root: '/opt'
-    data_root: '/opt'
-    ansible_become_pass: "{{ lookup('env','SUDO_PASS') }}"
-    host_name: 'pws-01.do'
-    postgres_expose_on_host: false
-    postgres_backup_healthcheck: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          62373066383066333863383366663766346136396364356539396332616532663535333335623338
-          3536306464613664313839616163363462663063653761330a383635663836383435326466383733
-          31376562653634363031663061626634396138356639333565353164666633396432386266666439
-          3537383564343835370a373533343831363933646536336433653839633064323238356338663164
-          66323330653832643137646166666131383632366234653164343462636162366565336438316261
-          61643430326264356333633332333238383930653464303836343333303461313739353639613037
-          613335626534363636633534383163363932
-  roles:
-    - { role: 'base-requirements' }
-    - { role: 'docker', tags: 'docker' }
-    - { role: 'newrelic-infrastructure-agent', tags: 'nr-infra' }
-    - { role: 'fluentbit', tags: 'fluent' }
-    - { role: 'postgres', tags: 'postgres' }
-    - { role: 'rabbitmq', tags: 'rabbitmq' }
-    - { role: 'healthcheck', tags: 'healthcheck' }
-    - { role: 'ssl-smurfville_app', tags: 'ssl-smurfville' }
-    - { role: 'wg-easy', tags: 'wg-easy' }

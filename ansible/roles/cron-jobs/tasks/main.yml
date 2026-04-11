@@ -1,6 +1,0 @@
-- name: Create jobs directory /opt/jobs
-  file:
-    path: "{{ jobs_folder }}"
-    state: directory
-
-

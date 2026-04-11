@@ -1,16 +1,7 @@
-version: '3.2'
-
 services:
   {{ pihole_service_name }}:
     image: {{ pihole_image_tag }}
     container_name: {{ pihole_service_name }}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.pihole.rule=Host(`pihole.{{ main_domain_name }}`)"
-      - "traefik.http.routers.pihole.entryPoints=websecure"
-      - "traefik.http.routers.pihole.tls=true"
-      - "traefik.http.routers.pihole.tls.certresolver={{ traefik_certresolver_name }}"
-      - "traefik.http.services.pihole.loadbalancer.server.port=80"
     logging:
       driver: json-file
     ports:
@@ -19,9 +10,9 @@ services:
       - "67:67/udp"
       - "{{ pihole_ui_port }}:6080/tcp"    
     environment:
-      - WEB_PORT={{ pihole_ui_port }}
-      - TZ='Etc/UTC'
-      - WEBPASSWORD={{ pihole_ui_password }}
+      - FTLCONF_webserver_port={{ pihole_ui_port }}
+      - TZ='Europe/Dublin'
+      - FTLCONF_webserver_api_password={{ pihole_ui_password }}
     volumes:
       - '{{ pihole_appdata_directory }}/:/etc/pihole/'
       - '{{ pihole_dnsmasq_data_directory }}/:/etc/dnsmasq.d/'
