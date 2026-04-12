@@ -12,7 +12,7 @@ services:
       - POSTGRES_PASSWORD={{ postgres_admin_password }}
       - POSTGRES_USER={{ postgres_admin_user }}
     volumes:
-      - "pg_db:/var/lib/postgresql/data"
+      - "pg_db:/var/lib/postgresql"
       - "{{ postgres_scripts_directory }}:/opt/scripts"
 
 volumes:

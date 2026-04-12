@@ -37,3 +37,4 @@
     - { role: 'radarr', tags: 'radarr' }
     - { role: 'transmission', tags: 'transmission' }
     - { role: 'jellyfin', tags: 'jellyfin' }
+    - { role: 'sure-finance', tags: 'sure-finance' }
