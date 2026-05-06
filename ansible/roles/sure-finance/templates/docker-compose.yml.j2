@@ -1,11 +1,24 @@
-version: '3.2'
+x-db-env: &db_env
+  POSTGRES_USER: {{ sure_db_user }}
+  POSTGRES_PASSWORD: {{ sure_db_password }}
+  POSTGRES_DB: {{ sure_db_name }}
+
+x-rails-env: &rails_env
+  <<: *db_env
+  SECRET_KEY_BASE: {{ sure_app_secret_base }}
+  SELF_HOSTED: "true"
+  RAILS_FORCE_SSL: "true"
+  RAILS_ASSUME_SSL: "true"
+  DB_HOST: {{ postgres_host }}
+  DB_PORT: {{ postgres_port }}
+  REDIS_URL: {{ sure_redis_url }}
+  SKYLIGHT_AUTHENTICATION: {{ sure_app_skylight_token }}
+  SENTRY_DSN: {{ sure_sentry_dsn }}
 
 services:
-  {{ sure_service_name }}:
+  web:
     image: {{ sure_image_tag }}
-    container_name: {{ sure_service_name }}    
-    logging:
-      driver: json-file
+    container_name: {{ sure_service_name }}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sure.rule=Host(`finance.{{ main_domain_name }}`)"
@@ -13,17 +26,23 @@ services:
       - "traefik.http.routers.sure.tls=true"
       - "traefik.http.routers.sure.tls.certresolver={{ traefik_certresolver_name }}"
       - "traefik.http.services.sure.loadbalancer.server.port=3000"
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ='UTC'
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD={{ sure_db_password }}
-      - POSTGRES_DB=railway
-      - DB_HOST={{ sure_db_host }}
-      - DB_PORT=29260
     volumes:
-      - {{ sure_data_directory }}/upload:/var/www/html/storage/upload
+      - {{ sure_data_directory }}:/rails/storage
+    restart: unless-stopped
+    environment:
+      <<: *rails_env
+    networks:
+      - {{ traefik_network_name }}
+
+  worker:
+    image: {{ sure_image_tag }}
+    container_name: {{ sure_service_name }}-worker
+    command: bundle exec sidekiq
+    volumes:
+      - {{ sure_data_directory }}:/rails/storage
+    restart: unless-stopped
+    environment:
+      <<: *rails_env
     networks:
       - {{ traefik_network_name }}
 
