@@ -36,6 +36,9 @@ services:
       # Enable Access Logs
       - "--accesslog=true"
       - "--log.level=INFO"
+      # Enable file provider for dynamic config snippets
+      - "--providers.file.directory=/etc/traefik/dynamic"
+      - "--providers.file.watch=true"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`traefik.{{ main_domain_name }}`)"
@@ -61,6 +64,8 @@ services:
       - "8082:8082"
     volumes:
       - "{{ traefik_acme_directory }}:/letsencrypt"
+      # Dynamic config snippets for non-Docker services
+      - "{{ traefik_dynamic_config_dir }}:/etc/traefik/dynamic"
       # So that Traefik can listen to the Docker events
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 

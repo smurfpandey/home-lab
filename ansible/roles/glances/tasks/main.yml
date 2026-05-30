@@ -1,0 +1,35 @@
+---
+
+- name: Check if glances is already installed
+  stat:
+    path: "/home/{{ ansible_user }}/.local/bin/glances"
+  register: glances_binary
+
+- name: Install glances via uv
+  command: "/usr/local/bin/uv tool install glances[all]"
+  become_user: "{{ ansible_user }}"
+  when: not glances_binary.stat.exists
+
+- name: Create glances systemd service
+  template:
+    src: glances.service.j2
+    dest: /etc/systemd/system/{{ glances_service_name }}.service
+  register: glances_service_file
+  notify: restart glances
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: true
+  when: glances_service_file.changed
+
+- name: Enable and start glances
+  systemd:
+    name: "{{ glances_service_name }}"
+    enabled: true
+    state: started
+
+- name: Deploy Traefik config for glances
+  template:
+    src: glances.toml.j2
+    dest: "{{ traefik_dynamic_config_dir }}/{{ glances_service_name }}.toml"
+  notify: restart traefik

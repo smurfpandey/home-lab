@@ -1,0 +1,3 @@
+---
+glances_service_name: glances
+glances_port: 61208

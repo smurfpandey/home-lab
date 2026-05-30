@@ -1,0 +1,13 @@
+[Unit]
+Description=Glances Monitoring
+After=network.target
+
+[Service]
+Type=simple
+User={{ ansible_user }}
+ExecStart=/home/{{ ansible_user }}/.local/bin/glances -w
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

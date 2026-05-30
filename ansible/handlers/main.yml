@@ -64,5 +64,10 @@
     name: jellyfin
     state: restarted
 
+- name: restart glances
+  service:
+    name: glances
+    state: restarted
+
 - name: reload nginx
   command: docker kill --signal=HUP nginx

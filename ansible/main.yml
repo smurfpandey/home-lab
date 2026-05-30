@@ -13,6 +13,7 @@
     - { role: 'base-requirements', tags: 'base' }
     - { role: 'docker', tags: 'docker' }
     - { role: 'traefik', tags: 'traefik' }
+    - { role: 'glances', tags: 'glances' }
     - { role: 'pihole', tags: 'pihole' }
     - { role: 'jackett', tags: 'jackett' }
 
@@ -33,6 +34,7 @@
     - { role: 'docker', tags: 'docker' }
     - { role: 'postgres', tags: 'postgres' }
     - { role: 'traefik', tags: 'traefik' }
+    - { role: 'glances', tags: 'glances' }
     - { role: 'sonarr', tags: 'sonarr' }
     - { role: 'radarr', tags: 'radarr' }
     - { role: 'transmission', tags: 'transmission' }

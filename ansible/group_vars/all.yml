@@ -7,6 +7,7 @@ influxdb_hostname: 'influxdb.earth.smurfville.app'
 chronograf_port: 5087
 traefik_network_name: proxy
 traefik_certresolver_name: letsencrypt
+traefik_dynamic_config_dir: '{{ app_root }}/traefik/dynamic'
 netdata_store_name: netdatadb
 netdata_default_port: 19999
 

@@ -1,0 +1,12 @@
+[http.routers]
+  [http.routers.glances]
+    rule = "Host(`glances.{{ main_domain_name }}`)"
+    entryPoints = ["websecure"]
+    service = "glances"
+    [http.routers.glances.tls]
+      certResolver = "{{ traefik_certresolver_name }}"
+
+[http.services]
+  [http.services.glances.loadBalancer]
+    [[http.services.glances.loadBalancer.servers]]
+      url = "http://{{ ansible_host }}:{{ glances_port }}"
