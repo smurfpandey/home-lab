@@ -1,0 +1,9 @@
+services:
+  {{ valkey_service_name }}:
+    image: {{ valkey_image }}
+    container_name: {{ valkey_service_name }}
+    ports:
+      - "{{ valkey_port }}:6379/tcp"
+    command: ["valkey-server", "--save", "", "--appendonly", "no"]
+    logging:
+      driver: json-file

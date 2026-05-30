@@ -1,0 +1,12 @@
+---
+- name: Do the generic stuff
+  ansible.builtin.include_role:
+    name: generic-deploy-docker-app
+  vars:
+    app_name: "{{ valkey_service_name }}"
+    app_directory: "{{ valkey_app_directory }}"
+    app_directories:
+      - "{{ valkey_app_directory }}"
+    app_config_files: []
+    app_docker_images:
+      - "{{ valkey_image }}"

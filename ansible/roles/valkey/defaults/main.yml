@@ -1,0 +1,4 @@
+---
+valkey_app_directory: '{{ app_root }}/valkey'
+valkey_image: 'valkey/valkey:9.1-alpine'
+valkey_service_name: 'valkey'

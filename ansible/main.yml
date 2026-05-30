@@ -29,6 +29,7 @@
     sans_domain_name: '*.earth.smurfville.app'
   roles:
     - { role: 'ping-me' }
+    - { role: 'valkey', tags: 'valkey' }
     - { role: 'mount-hdd', tags: 'mount-hdd' }
     - { role: 'base-requirements', tags: 'base' }
     - { role: 'docker', tags: 'docker' }
