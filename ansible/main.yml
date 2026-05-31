@@ -9,7 +9,7 @@
     main_domain_name: "moon.smurfville.app"
     sans_domain_name: "*.moon.smurfville.app"
   roles:
-    - { role: "ping-me" }
+    - { role: "ping-me", tags: "ping" }
     - { role: "base-requirements", tags: "base" }
     - { role: "docker", tags: "docker" }
     - { role: "traefik", tags: "traefik" }
@@ -29,7 +29,7 @@
     main_domain_name: "earth.smurfville.app"
     sans_domain_name: "*.earth.smurfville.app"
   roles:
-    - { role: "ping-me" }
+    - { role: "ping-me", tags: "ping" }
     - { role: "valkey", tags: "valkey" }
     - { role: "mount-hdd", tags: "mount-hdd" }
     - { role: "base-requirements", tags: "base" }
