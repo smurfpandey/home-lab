@@ -71,6 +71,14 @@ Copy `.env.example` to `.env` and fill in values. `.env` is gitignored.
 - `.env` files are gitignored by design.
 - Ansible Vault password must be provided at runtime via `ANSIBLE_VAULT_PASS`.
 
+## Host Architecture
+
+When planning a new service, read `docs/architecture.md` to decide which host to deploy to.
+
+Quick rules:
+- Needs persistent storage, media access, or lots of RAM → **Pi4** (`earth.smurfville.app`)
+- Stateless, lightweight, or DNS-critical → **Pi3** (`moon.smurfville.app`)
+
 ## Dev Environment
 
 - `.devcontainer.json` provides a Python 3.13 + Ansible container environment
