@@ -1,0 +1,33 @@
+services:
+  {{ yamtrack_service_name }}:
+    image: {{ yamtrack_image }}
+    container_name: {{ yamtrack_service_name }}
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.yamtrack.rule=Host(`yamtrack.{{ main_domain_name }}`)"
+      - "traefik.http.routers.yamtrack.entryPoints=websecure"
+      - "traefik.http.routers.yamtrack.tls=true"
+      - "traefik.http.routers.yamtrack.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.services.yamtrack.loadbalancer.server.port=8000"
+    logging:
+      driver: json-file
+    environment:
+      - TZ=Asia/Kolkata
+      - PUID=1000
+      - PGID=1000
+      - SECRET={{ yamtrack_secret }}
+      - URLS=https://yamtrack.{{ main_domain_name }}
+      - REGISTRATION=False
+      - REDIS_URL=redis://{{ earth_host }}:{{ valkey_port }}/{{ valkey_db_allocations.yamtrack }}
+      - DB_HOST={{ earth_host }}
+      - DB_PORT={{ postgres_port }}
+      - DB_NAME={{ yamtrack_db_name }}
+      - DB_USER={{ yamtrack_db_user }}
+      - DB_PASSWORD={{ yamtrack_db_password }}
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true
