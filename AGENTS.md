@@ -2,8 +2,6 @@
 
 Ansible playbooks to set up a home server on Raspberry Pi.
 
-> **Note:** The `terraform/` directory is deprecated and no longer in use. Ignore it.
-
 ## Commands
 
 ```shell
@@ -28,16 +26,13 @@ podman compose run --rm --entrypoint "ansible-vault encrypt_string --stdin-name 
 ```
 ansible/
 ├── main.yml              # Main playbook (entry point)
-├── ping.yml              # Connectivity test playbook
 ├── hosts.ini             # Inventory (pi3b, pi4)
 ├── group_vars/
 │   └── all.yml           # Global variables (Vault-encrypted secrets)
 ├── handlers/
 │   └── main.yml          # Shared service restart handlers
-├── roles/                # 30+ Ansible roles
+├── roles/                # 20 Ansible roles
 ├── .env.example          # Environment variable template
-├── servers.toml          # Traefik backend/frontend config
-├── traefik.toml          # Traefik static config
 └── docker-compose.yml    # Ansible control machine container
 ```
 

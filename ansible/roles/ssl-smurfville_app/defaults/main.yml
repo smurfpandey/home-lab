@@ -1,5 +1,0 @@
----
-
-certbot_domains:
-  - 'smurfville.app'
-  - '*.smurfville.app'

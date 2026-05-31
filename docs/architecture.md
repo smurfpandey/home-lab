@@ -71,20 +71,6 @@ Bandwidth-heavy services like Jellyfin stream directly through Pi4's Traefik, ne
 - **Pi4 services** (postgres): Database backups written to HDD daily at 00:30 via cron.
 - **HDD failure**: Single point of failure for all media and app data. No RAID or replication.
 
-## Unused Roles (Not Wired in main.yml)
-
-These roles exist but aren't active. Use the decision matrix above to place them:
-
-| Role | Needs storage? | Likely host |
-|---|---|---|
-| `youtubedl-material` | Yes (downloads to HDD) | Pi4 |
-| `wg-easy` | Yes (config + keys) | Pi4 |
-| `firefly` | Yes (DB + uploads) | Pi4 |
-| `uptime-kuma` | Yes (SQLite DB) | Pi4 |
-| `grafana` + `influxdb` | Yes (time-series DB) | Pi4 |
-| `portainer` | Yes (config) | Pi4 |
-| `rabbitmq` | Yes (queue data) | Pi4 |
-
 ## How to Check Host Specs
 
 SSH into each Pi and run:
