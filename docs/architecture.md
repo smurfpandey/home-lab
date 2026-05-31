@@ -58,6 +58,7 @@ Bandwidth-heavy services like Jellyfin stream directly through Pi4's Traefik, ne
 | `postgres` | Database backups stored on HDD |
 | `valkey` | In-memory cache (needs RAM, no persistence) |
 | `sonarr` / `radarr` | Media library on HDD |
+| `bazarr` | Subtitle downloader for Sonarr/Radarr |
 | `transmission` | Torrent downloads to HDD |
 | `jellyfin` | Media streaming + HDD library |
 | `sure-finance` | File uploads + Postgres dependency |
@@ -76,11 +77,9 @@ These roles exist but aren't active. Use the decision matrix above to place them
 
 | Role | Needs storage? | Likely host |
 |---|---|---|
-| `bazarr` | Yes (media access on HDD) | Pi4 |
 | `youtubedl-material` | Yes (downloads to HDD) | Pi4 |
 | `wg-easy` | Yes (config + keys) | Pi4 |
 | `firefly` | Yes (DB + uploads) | Pi4 |
-| `bills-collector` | No (external DB) | Pi3 |
 | `uptime-kuma` | Yes (SQLite DB) | Pi4 |
 | `grafana` + `influxdb` | Yes (time-series DB) | Pi4 |
 | `portainer` | Yes (config) | Pi4 |

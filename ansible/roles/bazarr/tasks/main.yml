@@ -7,7 +7,6 @@
     app_directory: "{{ bazarr_app_directory }}"
     app_directories:
       - "{{ bazarr_app_directory }}"
-      - "{{ bazarr_config_directory }}"
       - "{{ bazarr_data_directory }}"
     app_config_files: []
     app_docker_images:

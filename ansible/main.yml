@@ -39,6 +39,7 @@
     - { role: "glances", tags: "glances" }
     - { role: "sonarr", tags: "sonarr" }
     - { role: "radarr", tags: "radarr" }
+    - { role: "bazarr", tags: "bazarr" }
     - { role: "transmission", tags: "transmission" }
     - { role: "jellyfin", tags: "jellyfin" }
     - { role: "sure-finance", tags: "sure-finance" }
