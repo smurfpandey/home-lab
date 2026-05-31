@@ -20,7 +20,7 @@ services:
       - ENV=production
       - CONFIG_TYPE=bills_collector.config.ProductionConfig
       - SECRET_KEY='SomeRandomStringOf32CharsExactly'
-      - DATABASE_URL='postgresql+psycopg://myuser:mypassword@{{ postgres_host }}:{{ postgres_port }}/bills_collector'      
+      - DATABASE_URL='postgresql+psycopg://myuser:mypassword@{{ earth_host }}:{{ postgres_port }}/bills_collector'      
       - APP_BASE_URL=https://bills.{{ main_domain_name }}
       - GOOGLE_CLIENT_ID=''
       - GOOGLE_CLIENT_SECRET=''

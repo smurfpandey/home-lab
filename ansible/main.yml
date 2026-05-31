@@ -4,40 +4,41 @@
   handlers:
     - import_tasks: handlers/main.yml
   vars:
-    app_root: '/opt'
-    data_root: '/opt/app-data'
-    main_domain_name: 'moon.smurfville.app'
-    sans_domain_name: '*.moon.smurfville.app'
+    app_root: "/opt"
+    data_root: "/opt/app-data"
+    main_domain_name: "moon.smurfville.app"
+    sans_domain_name: "*.moon.smurfville.app"
   roles:
-    - { role: 'ping-me' }
-    - { role: 'base-requirements', tags: 'base' }
-    - { role: 'docker', tags: 'docker' }
-    - { role: 'traefik', tags: 'traefik' }
-    - { role: 'glances', tags: 'glances' }
-    - { role: 'pihole', tags: 'pihole' }
-    - { role: 'jackett', tags: 'jackett' }
+    - { role: "ping-me" }
+    - { role: "base-requirements", tags: "base" }
+    - { role: "docker", tags: "docker" }
+    - { role: "traefik", tags: "traefik" }
+    - { role: "glances", tags: "glances" }
+    - { role: "pihole", tags: "pihole" }
+    - { role: "jackett", tags: "jackett" }
+    # - { role: 'yamtrack', tags: 'yamtrack' }
 
 - hosts: pi4
   become: yes
   handlers:
     - import_tasks: handlers/main.yml
   vars:
-    data_root: '/mnt/mediahub/apps'
-    app_root: '/opt'
+    data_root: "/mnt/mediahub/apps"
+    app_root: "/opt"
     postgres_expose_on_host: true
-    main_domain_name: 'earth.smurfville.app'
-    sans_domain_name: '*.earth.smurfville.app'
+    main_domain_name: "earth.smurfville.app"
+    sans_domain_name: "*.earth.smurfville.app"
   roles:
-    - { role: 'ping-me' }
-    - { role: 'valkey', tags: 'valkey' }
-    - { role: 'mount-hdd', tags: 'mount-hdd' }
-    - { role: 'base-requirements', tags: 'base' }
-    - { role: 'docker', tags: 'docker' }
-    - { role: 'postgres', tags: 'postgres' }
-    - { role: 'traefik', tags: 'traefik' }
-    - { role: 'glances', tags: 'glances' }
-    - { role: 'sonarr', tags: 'sonarr' }
-    - { role: 'radarr', tags: 'radarr' }
-    - { role: 'transmission', tags: 'transmission' }
-    - { role: 'jellyfin', tags: 'jellyfin' }
-    - { role: 'sure-finance', tags: 'sure-finance' }
+    - { role: "ping-me" }
+    - { role: "valkey", tags: "valkey" }
+    - { role: "mount-hdd", tags: "mount-hdd" }
+    - { role: "base-requirements", tags: "base" }
+    - { role: "docker", tags: "docker" }
+    - { role: "postgres", tags: "postgres" }
+    - { role: "traefik", tags: "traefik" }
+    - { role: "glances", tags: "glances" }
+    - { role: "sonarr", tags: "sonarr" }
+    - { role: "radarr", tags: "radarr" }
+    - { role: "transmission", tags: "transmission" }
+    - { role: "jellyfin", tags: "jellyfin" }
+    - { role: "sure-finance", tags: "sure-finance" }

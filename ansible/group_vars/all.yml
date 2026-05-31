@@ -12,7 +12,7 @@ netdata_store_name: netdatadb
 netdata_default_port: 19999
 
 postgres_port: 5432
-postgres_host: 192.168.0.210
+earth_host: 192.168.0.210
 
 youtubedl_ui_port: 5050
 pihole_ui_port: 6080
@@ -21,6 +21,10 @@ uptime_kuma_ui_port: 3001
 rabbitmq_port: 5672
 
 valkey_port: 6379
+# Valkey database allocations (db 0 = default)
+valkey_db_allocations:
+  yamtrack: 0
+  sure_finance: 1
 
 newrelic_license_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
