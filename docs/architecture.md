@@ -1,5 +1,7 @@
 # Home Lab Architecture
 
+![Home Lab Architecture](./arch.png)
+
 ## Hardware Inventory
 
 | Host | Model | RAM | Storage | Domain |
