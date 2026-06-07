@@ -1,0 +1,26 @@
+services:
+  zerobyte:
+    image: {{ zerobyte_image_tag }}
+    container_name: {{ zerobyte_service_name }}
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.zerobyte.rule=Host(`zerobyte.{{ main_domain_name }}`)"
+      - "traefik.http.routers.zerobyte.entryPoints=websecure"
+      - "traefik.http.routers.zerobyte.tls=true"
+      - "traefik.http.routers.zerobyte.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.services.zerobyte.loadbalancer.server.port=4096"
+    environment:
+      - TZ={{ zerobyte_tz }}
+      - BASE_URL=https://zerobyte.{{ main_domain_name }}
+      - APP_SECRET={{ zerobyte_app_secret }}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - {{ zerobyte_data_directory }}:/var/lib/zerobyte
+      - /mnt/mediahub:/data:ro
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true

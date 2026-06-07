@@ -1,7 +1,7 @@
 ---
 sure_app_directory: "{{ app_root }}/sure-finance"
 sure_data_directory: "{{ data_root }}/sure-finance"
-sure_image_tag: "ghcr.io/we-promise/sure:0.7.2-alpha.2"
+sure_image_tag: "ghcr.io/we-promise/sure:0.7.2-alpha.3"
 sure_service_name: "sure-finance"
 sure_db_name: "surefinance"
 sure_db_user: "surefinance"

@@ -43,3 +43,5 @@
     - { role: "transmission", tags: "transmission" }
     - { role: "jellyfin", tags: "jellyfin" }
     - { role: "sure-finance", tags: "sure-finance" }
+    - { role: "zerobyte", tags: "zerobyte" }
+    - { role: "nodecast-tv", tags: "nodecast-tv" }

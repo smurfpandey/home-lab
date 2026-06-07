@@ -1,5 +1,5 @@
 ---
-bazarr_app_directory: '{{ app_root }}/bazarr'
-bazarr_data_directory: '{{ data_root }}/bazarr'
-bazarr_image_tag: 'linuxserver/bazarr:arm64v8-1.4.5'
-bazarr_service_name: 'bazarr'
+bazarr_app_directory: "{{ app_root }}/bazarr"
+bazarr_data_directory: "{{ data_root }}/bazarr"
+bazarr_image_tag: "linuxserver/bazarr:arm64v8-1.5.6"
+bazarr_service_name: "bazarr"
