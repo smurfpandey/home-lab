@@ -1,0 +1,14 @@
+---
+- name: Do the generic stuff
+  ansible.builtin.include_role:
+    name: generic-deploy-docker-app
+  vars:
+    app_name: "{{ m3u_editor_service_name }}"
+    app_directory: "{{ m3u_editor_app_directory }}"
+    app_directories:
+      - "{{ m3u_editor_app_directory }}"
+      - "{{ m3u_editor_data_directory }}/config"
+      - "{{ m3u_editor_data_directory }}/storage"
+    app_config_files: []
+    app_docker_images:
+      - "{{ m3u_editor_image }}"

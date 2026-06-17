@@ -44,4 +44,5 @@
     - { role: "jellyfin", tags: "jellyfin" }
     - { role: "sure-finance", tags: "sure-finance" }
     - { role: "zerobyte", tags: "zerobyte" }
+    - { role: "m3u-editor", tags: "m3u-editor" }
     - { role: "nodecast-tv", tags: "nodecast-tv" }

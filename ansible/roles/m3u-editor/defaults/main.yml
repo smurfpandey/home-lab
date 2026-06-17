@@ -1,0 +1,6 @@
+---
+m3u_editor_app_directory: "{{ app_root }}/m3u-editor"
+m3u_editor_data_directory: "{{ data_root }}/m3u-editor"
+m3u_editor_image: "sparkison/m3u-editor:0.11.56"
+m3u_editor_service_name: "m3u-editor"
+m3u_editor_app_port: 36400

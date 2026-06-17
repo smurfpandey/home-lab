@@ -16,7 +16,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Asia/Kolkata
+      - TZ=Europe/Dublin
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - {{ bazarr_data_directory }}:/config

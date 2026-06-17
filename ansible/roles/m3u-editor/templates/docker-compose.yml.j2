@@ -1,0 +1,31 @@
+services:
+  {{ m3u_editor_service_name }}:
+    image: {{ m3u_editor_image }}
+    container_name: {{ m3u_editor_service_name }}
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.m3u-editor.rule=Host(`m3u-editor.{{ main_domain_name }}`)"
+      - "traefik.http.routers.m3u-editor.entryPoints=websecure"
+      - "traefik.http.routers.m3u-editor.tls=true"
+      - "traefik.http.routers.m3u-editor.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.services.m3u-editor.loadbalancer.server.port={{ m3u_editor_app_port }}"
+    environment:
+      - TZ=Europe/Dublin
+      - APP_URL=https://m3u-editor.{{ main_domain_name }}
+      - APP_PORT={{ m3u_editor_app_port }}
+      - DB_CONNECTION=sqlite
+      - ENABLE_POSTGRES=false
+      - REDIS_ENABLED=false
+      - M3U_PROXY_ENABLED=false
+      - M3U_PROXY_INTEGRATION_ENABLED=false
+      - QUEUE_CONNECTION=sync
+    volumes:
+      - {{ m3u_editor_data_directory }}/config:/var/www/config
+      - {{ m3u_editor_data_directory }}/storage:/var/www/html/storage/app/public
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true
