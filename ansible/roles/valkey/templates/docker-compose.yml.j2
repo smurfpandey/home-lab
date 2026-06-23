@@ -4,6 +4,6 @@ services:
     container_name: {{ valkey_service_name }}
     ports:
       - "{{ valkey_port }}:6379/tcp"
-    command: ["valkey-server", "--save", "", "--appendonly", "no"]
+    command: ["valkey-server", "--save", "", "--appendonly", "no", "--requirepass", "{{ valkey_password }}"]
     logging:
       driver: json-file

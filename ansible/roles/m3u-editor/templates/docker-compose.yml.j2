@@ -16,10 +16,16 @@ services:
       - APP_PORT={{ m3u_editor_app_port }}
       - DB_CONNECTION=sqlite
       - ENABLE_POSTGRES=false
-      - REDIS_ENABLED=false
+      - REDIS_HOST={{ earth_host }}
+      - REDIS_SERVER_PORT={{ valkey_port }}
+      - REDIS_PASSWORD={{ valkey_password }}
+      - REDIS_DB={{ valkey_db_allocations.m3u_editor.default }}
+      - REDIS_CACHE_DB={{ valkey_db_allocations.m3u_editor.cache }}
+      - REDIS_IMPORT_DB={{ valkey_db_allocations.m3u_editor.import }}
+      - REDIS_FILE_SYNC_DB={{ valkey_db_allocations.m3u_editor.file_sync }}
+      - REDIS_SESSION_DB={{ valkey_db_allocations.m3u_editor.session }}
       - M3U_PROXY_ENABLED=false
       - M3U_PROXY_INTEGRATION_ENABLED=false
-      - QUEUE_CONNECTION=sync
     volumes:
       - {{ m3u_editor_data_directory }}/config:/var/www/config
       - {{ m3u_editor_data_directory }}/storage:/var/www/html/storage/app/public

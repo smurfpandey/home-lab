@@ -1,7 +1,7 @@
 ---
 sure_app_directory: "{{ app_root }}/sure-finance"
 sure_data_directory: "{{ data_root }}/sure-finance"
-sure_image_tag: "ghcr.io/we-promise/sure:0.7.2-alpha.4"
+sure_image_tag: "ghcr.io/we-promise/sure:0.7.2-alpha.8"
 sure_service_name: "sure-finance"
 sure_db_name: "surefinance"
 sure_db_user: "surefinance"
@@ -34,7 +34,7 @@ sure_app_skylight_token: !vault |
   3536613539623565340a353266306364343938383834366465386438383835663665363036316263
   66336165626536613965336238633661636662376661316162626563663664666433316264313366
   6435396463346434663463663930653934376133313236653830
-sure_redis_url: "redis://{{ earth_host }}:{{ valkey_port }}/{{ valkey_db_allocations.sure_finance }}"
+sure_redis_url: "redis://:{{ valkey_password }}@{{ earth_host }}:{{ valkey_port }}/{{ valkey_db_allocations.sure_finance }}"
 sure_sentry_dsn: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   32613364333833643737343036623032643862363661386665666231303937366538313265353064

@@ -19,7 +19,7 @@ services:
       - SECRET={{ yamtrack_secret }}
       - URLS=https://yamtrack.{{ main_domain_name }}
       - REGISTRATION=False
-      - REDIS_URL=redis://{{ earth_host }}:{{ valkey_port }}/{{ valkey_db_allocations.yamtrack }}
+      - REDIS_URL=redis://:{{ valkey_password }}@{{ earth_host }}:{{ valkey_port }}/{{ valkey_db_allocations.yamtrack }}
       - DB_HOST={{ earth_host }}
       - DB_PORT={{ postgres_port }}
       - DB_NAME={{ yamtrack_db_name }}

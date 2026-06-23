@@ -11,10 +11,17 @@ earth_host: 192.168.0.210
 pihole_ui_port: 6080
 
 valkey_port: 6379
+valkey_password: "ea33867ba7429f9d7e57d820c309cd9e8781ae13e4e1b23d44634b9039eb6df7"
 # Valkey database allocations (db 0 = default)
 valkey_db_allocations:
   yamtrack: 0
   sure_finance: 1
+  m3u_editor:
+    default: 2
+    cache: 3
+    import: 4
+    file_sync: 5
+    session: 6
 
 letsencrypt_cert_location: /etc/letsencrypt
 cloudflare_credentials: '/opt/certbot/cloudflare_credentials.ini'

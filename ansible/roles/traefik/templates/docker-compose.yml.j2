@@ -7,23 +7,23 @@ services:
     image: {{ traefik_image_name }}:{{ traefik_image_tag }}
     container_name: {{ traefik_service_name }}
     command:
-      # Tell Traefik to discover containers using the Docker API      
+      # Tell Traefik to discover containers using the Docker API
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      # Enable the Trafik dashboard      
+      # Enable the Trafik dashboard
       - "--api.dashboard=true"
-      # Set up an insecure listener that redirects all traffic to TLS      
+      # Set up an insecure listener that redirects all traffic to TLS
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.websecure.address=:443"
       - "--entryPoints.web.forwardedHeaders.insecure"
       # Set up LetsEncrypt
-      - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.email=letsencrypt@smurfpandey.me"      
-      - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.storage=/letsencrypt/acme.json"      
+      - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.email=letsencrypt@smurfpandey.me"
+      - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.storage=/letsencrypt/acme.json"
       - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.dnschallenge=true"
       - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.dnschallenge.provider=cloudflare"
-      - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.dnschallenge.delaybeforecheck=2"      
+      - "--certificatesresolvers.{{ traefik_certresolver_name }}.acme.dnschallenge.delaybeforecheck=2"
       # Set up the TLS configuration for our websecure listener
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.certresolver={{ traefik_certresolver_name }}"
@@ -85,7 +85,6 @@ services:
       - proxy
 
 networks:
-  proxy:      
+  proxy:
     driver: bridge
     name: {{ traefik_network_name }}
-

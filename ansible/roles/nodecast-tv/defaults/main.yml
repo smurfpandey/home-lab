@@ -1,5 +1,0 @@
----
-nodecast_tv_app_directory: "{{ app_root }}/nodecast-tv"
-nodecast_tv_data_directory: "{{ data_root }}/nodecast-tv"
-nodecast_tv_image: "ghcr.io/technomancer702/nodecast-tv:2.1.1"
-nodecast_tv_service_name: "nodecast-tv"

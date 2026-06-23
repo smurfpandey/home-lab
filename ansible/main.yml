@@ -15,7 +15,7 @@
     - { role: "traefik", tags: "traefik" }
     - { role: "glances", tags: "glances" }
     - { role: "pihole", tags: "pihole" }
-    - { role: "jackett", tags: "jackett" }
+    - { role: "prowlarr", tags: "prowlarr" }
     # - { role: 'yamtrack', tags: 'yamtrack' }
 
 - hosts: pi4
@@ -45,4 +45,3 @@
     - { role: "sure-finance", tags: "sure-finance" }
     - { role: "zerobyte", tags: "zerobyte" }
     - { role: "m3u-editor", tags: "m3u-editor" }
-    - { role: "nodecast-tv", tags: "nodecast-tv" }
