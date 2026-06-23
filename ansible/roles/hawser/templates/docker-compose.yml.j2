@@ -5,24 +5,12 @@ services:
     image: {{ hawser_image_tag }}
     container_name: {{ hawser_service_name }}
     restart: unless-stopped
+    ports:
+      - "2376:2376"
     group_add:
       - "{{ hawser_docker_gid }}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - {{ traefik_network_name }}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.hawser.rule=Host(`hawser.{{ main_domain_name }}`)"
-      - "traefik.http.routers.hawser.entryPoints=websecure"
-      - "traefik.http.routers.hawser.tls=true"
-      - "traefik.http.routers.hawser.tls.certresolver={{ traefik_certresolver_name }}"
-      - "traefik.http.services.hawser.loadbalancer.server.port=2376"
     environment:
       - PORT=2376
-      - TOKEN={{ hawser_token }}
       - AGENT_NAME={{ hawser_agent_name }}
-
-networks:
-  {{ traefik_network_name }}:
-    external: true
