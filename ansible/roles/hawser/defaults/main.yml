@@ -1,0 +1,7 @@
+---
+hawser_app_directory: "{{ app_root }}/hawser"
+hawser_image_tag: "ghcr.io/finsys/hawser:0.2.45"
+hawser_service_name: "hawser"
+hawser_agent_name: "pi3-moon"
+hawser_token: "changeme"
+hawser_docker_gid: 992

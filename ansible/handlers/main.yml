@@ -27,3 +27,13 @@
   service:
     name: glances
     state: restarted
+
+- name: restart dockhand
+  service:
+    name: dockhand
+    state: restarted
+
+- name: restart hawser
+  service:
+    name: hawser
+    state: restarted

@@ -1,0 +1,28 @@
+version: '3.2'
+
+services:
+  {{ dockhand_service_name }}:
+    image: {{ dockhand_image_tag }}
+    container_name: {{ dockhand_service_name }}
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+    group_add:
+      - "{{ dockhand_docker_gid }}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - {{ dockhand_data_directory }}:/app/data
+    networks:
+      - {{ traefik_network_name }}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dockhand.rule=Host(`dockhand.{{ main_domain_name }}`)"
+      - "traefik.http.routers.dockhand.entryPoints=websecure"
+      - "traefik.http.routers.dockhand.tls=true"
+      - "traefik.http.routers.dockhand.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.services.dockhand.loadbalancer.server.port=3000"
+
+networks:
+  {{ traefik_network_name }}:
+    external: true

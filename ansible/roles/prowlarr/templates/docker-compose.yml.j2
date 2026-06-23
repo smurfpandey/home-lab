@@ -1,0 +1,28 @@
+version: '3.2'
+
+services:
+  {{ prowlarr_service_name }}:
+    image: {{ prowlarr_image_tag }}
+    container_name: {{ prowlarr_service_name }}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.{{ main_domain_name }}`)"
+      - "traefik.http.routers.prowlarr.entryPoints=websecure"
+      - "traefik.http.routers.prowlarr.tls=true"
+      - "traefik.http.routers.prowlarr.tls.certresolver={{ traefik_certresolver_name }}"
+      - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - {{ prowlarr_config_directory }}:/config
+    networks:
+      - {{ traefik_network_name }}
+
+networks:
+  {{ traefik_network_name }}:
+    external: true

@@ -1,0 +1,14 @@
+---
+
+- name: Do the generic stuff
+  ansible.builtin.include_role:
+    name: generic-deploy-docker-app
+  vars:
+    app_name: "{{ prowlarr_service_name }}"
+    app_directory: "{{ prowlarr_app_directory }}"
+    app_directories:
+      - "{{ prowlarr_app_directory }}"
+      - "{{ prowlarr_config_directory }}"
+    app_config_files: []
+    app_docker_images:
+      - "{{ prowlarr_image_tag }}"

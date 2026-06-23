@@ -45,12 +45,13 @@ Bandwidth-heavy services like Jellyfin stream directly through Pi4's Traefik, ne
 ### Pi3 (`moon`) — Stateless / Lightweight
 
 | Role | Why here |
-|---|---|
+|---|---|---|
 | `pihole` | DNS-critical, no storage needed |
-| `jackett` | Indexer, no media storage |
+| `prowlarr` | Indexer, no media storage |
 | `traefik` | Moon domain ingress |
 | `glances` | Monitoring |
 | `base-requirements` + `docker` | Infrastructure |
+| `hawser` | Dockhand agent for remote Docker management |
 
 ### Pi4 (`earth`) — Stateful / Storage-Heavy
 
@@ -66,10 +67,11 @@ Bandwidth-heavy services like Jellyfin stream directly through Pi4's Traefik, ne
 | `sure-finance` | File uploads + Postgres dependency |
 | `traefik` | Earth domain ingress (direct traffic) |
 | `glances` | Monitoring |
+| `dockhand` | Docker management UI (controller) |
 
 ## Config Loss Tolerance
 
-- **Pi3 services** (pihole, jackett): Config is not backed up. Rebuild from scratch if the SD card dies.
+- **Pi3 services** (pihole, prowlarr): Config is not backed up. Rebuild from scratch if the SD card dies.
 - **Pi4 services** (postgres): Database backups written to HDD daily at 00:30 via cron.
 - **HDD failure**: Single point of failure for all media and app data. No RAID or replication.
 

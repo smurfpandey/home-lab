@@ -1,0 +1,6 @@
+---
+dockhand_app_directory: "{{ app_root }}/dockhand"
+dockhand_data_directory: "{{ data_root }}/dockhand"
+dockhand_image_tag: "fnsys/dockhand:v1.0.35"
+dockhand_service_name: "dockhand"
+dockhand_docker_gid: 992

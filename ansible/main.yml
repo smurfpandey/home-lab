@@ -17,6 +17,7 @@
     - { role: "pihole", tags: "pihole" }
     - { role: "prowlarr", tags: "prowlarr" }
     # - { role: 'yamtrack', tags: 'yamtrack' }
+    - { role: "hawser", tags: "hawser" }
 
 - hosts: pi4
   become: yes
@@ -45,3 +46,4 @@
     - { role: "sure-finance", tags: "sure-finance" }
     - { role: "zerobyte", tags: "zerobyte" }
     - { role: "m3u-editor", tags: "m3u-editor" }
+    - { role: "dockhand", tags: "dockhand" }

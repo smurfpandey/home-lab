@@ -1,0 +1,6 @@
+---
+
+prowlarr_app_directory: '{{ app_root }}/prowlarr'
+prowlarr_config_directory: '{{ prowlarr_app_directory }}/config'
+prowlarr_image_tag: 'ghcr.io/linuxserver/prowlarr:2.4.0'
+prowlarr_service_name: 'prowlarr'
