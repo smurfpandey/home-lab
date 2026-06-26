@@ -1,0 +1,21 @@
+{
+  "name": "smurfville-portal",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite build && vite preview"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.1",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^4.3.1",
+    "vite": "^8.0.16"
+  },
+  "dependencies": {
+    "lucide": "^1.20.0"
+  }
+}

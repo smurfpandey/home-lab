@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smurfville | Private Homelab Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased">
+
+  <!-- STATE 1: Logged Out -->
+  <div id="view-logged-out" class="min-h-screen flex flex-col">
+    <header class="glass border-b border-slate-800/50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-cyan-600 flex items-center justify-center">
+              <i data-lucide="smile" class="w-6 h-6 text-white"></i>
+            </div>
+            <span class="text-xl font-semibold bg-gradient-to-r from-sky-400 to-cyan-300 bg-clip-text text-transparent">Smurfville</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <button id="btn-signin" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors">Sign In</button>
+            <button id="btn-create-account" class="btn-primary px-5 py-2 text-sm font-medium text-white rounded-lg">Create Account</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center px-4 py-16">
+      <div class="max-w-3xl text-center slide-up">
+        <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-sky-500 to-cyan-600 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-sky-500/25">
+          <i data-lucide="server" class="w-10 h-10 text-white"></i>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold text-white mb-4">Welcome to Smurfville</h1>
+        <p class="text-lg text-slate-400 mb-10 max-w-xl mx-auto">Your private homelab portal. Stream movies, access your media, and stay connected with friends and family.</p>
+
+        <div class="glass-card rounded-2xl p-6 sm:p-8">
+          <h2 class="text-lg font-semibold text-slate-200 mb-6">Getting Started</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <div class="flex flex-col items-center text-center p-4 rounded-xl bg-slate-800/30">
+              <div class="w-10 h-10 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center mb-3">
+                <span class="text-lg font-bold text-sky-400">1</span>
+              </div>
+              <i data-lucide="user-plus" class="w-5 h-5 text-sky-400 mb-2"></i>
+              <span class="text-sm font-medium text-slate-300">Create Account</span>
+            </div>
+            <div class="flex flex-col items-center text-center p-4 rounded-xl bg-slate-800/30">
+              <div class="w-10 h-10 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center mb-3">
+                <span class="text-lg font-bold text-sky-400">2</span>
+              </div>
+              <i data-lucide="shield-check" class="w-5 h-5 text-sky-400 mb-2"></i>
+              <span class="text-sm font-medium text-slate-300">Get Approved</span>
+            </div>
+            <div class="flex flex-col items-center text-center p-4 rounded-xl bg-slate-800/30">
+              <div class="w-10 h-10 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center mb-3">
+                <span class="text-lg font-bold text-sky-400">3</span>
+              </div>
+              <i data-lucide="download" class="w-5 h-5 text-sky-400 mb-2"></i>
+              <span class="text-sm font-medium text-slate-300">Install Tailscale</span>
+            </div>
+            <div class="flex flex-col items-center text-center p-4 rounded-xl bg-slate-800/30">
+              <div class="w-10 h-10 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center mb-3">
+                <span class="text-lg font-bold text-sky-400">4</span>
+              </div>
+              <i data-lucide="play-circle" class="w-5 h-5 text-sky-400 mb-2"></i>
+              <span class="text-sm font-medium text-slate-300">Access Apps</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="text-center py-6 text-sm text-slate-500 border-t border-slate-800/50">
+      Smurfville Private Network &copy; 2024
+    </footer>
+  </div>
+
+  <!-- Logged In Header (shared across states 2-4) -->
+  <div id="logged-in-header" class="hidden">
+    <header class="glass sticky top-0 z-30 border-b border-slate-800/50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-cyan-600 flex items-center justify-center">
+              <i data-lucide="smile" class="w-6 h-6 text-white"></i>
+            </div>
+            <span class="text-xl font-semibold bg-gradient-to-r from-sky-400 to-cyan-300 bg-clip-text text-transparent">Smurfville</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <div id="status-badges" class="flex items-center gap-2"></div>
+            <div class="h-8 w-px bg-slate-700"></div>
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-sky-600 to-cyan-700 flex items-center justify-center">
+                <span id="user-initial" class="text-sm font-medium text-white">?</span>
+              </div>
+              <span id="user-email" class="text-sm text-slate-300 hidden sm:inline"></span>
+            </div>
+            <button id="btn-signout" class="p-2 rounded-lg hover:bg-slate-800 transition-colors">
+              <i data-lucide="log-out" class="w-5 h-5 text-slate-400"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <!-- STATE 2: Pending Approval -->
+  <div id="view-pending" class="hidden min-h-screen flex flex-col">
+    <div id="pending-header-slot"></div>
+    <main class="flex-grow flex items-center justify-center px-4 py-16">
+      <div class="max-w-lg text-center slide-up glass-card rounded-2xl p-8">
+        <div class="w-16 h-16 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center mx-auto mb-6 status-glow-amber">
+          <i data-lucide="clock" class="w-8 h-8 text-amber-400"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-white mb-3">Awaiting Approval</h2>
+        <p class="text-slate-400 mb-6">Your account has been created and is awaiting node clearance by the administrator. Once approved, you'll be able to connect to the Tailscale mesh and access all applications.</p>
+        <div class="flex items-center justify-center gap-4 p-4 rounded-xl bg-slate-800/40 mb-6">
+          <i data-lucide="mail" class="w-5 h-5 text-sky-400"></i>
+          <span class="text-sm text-slate-300">Contact: <span id="pending-email" class="text-sky-400"></span></span>
+        </div>
+        <p class="text-xs text-slate-500">This usually takes 1-24 hours. You'll receive an email notification once approved.</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- STATE 3: Approved / Tailscale Disconnected -->
+  <div id="view-disconnected" class="hidden min-h-screen flex flex-col">
+    <div id="disconnected-header-slot"></div>
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="glass-card rounded-2xl p-6 sm:p-8 mb-8 border-amber-500/20 fade-in">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="wifi-off" class="w-6 h-6 text-amber-400"></i>
+          </div>
+          <div class="flex-grow">
+            <h3 class="text-lg font-semibold text-white mb-2">Connect to Tailscale</h3>
+            <p class="text-slate-400 text-sm mb-4">Your account is approved. Install Tailscale to access your private homelab applications.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="w-6 h-6 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-xs font-bold text-sky-400">1</span>
+                  <span class="font-medium text-slate-200 text-sm">Install</span>
+                </div>
+                <p class="text-xs text-slate-400">Download Tailscale client from <span class="text-sky-400">tailscale.com</span></p>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="w-6 h-6 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-xs font-bold text-sky-400">2</span>
+                  <span class="font-medium text-slate-200 text-sm">Sign In</span>
+                </div>
+                <p class="text-xs text-slate-400">Login with your <span class="text-sky-400">@smurfpandey.me</span> account</p>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="w-6 h-6 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-xs font-bold text-sky-400">3</span>
+                  <span class="font-medium text-slate-200 text-sm">Connect</span>
+                </div>
+                <p class="text-xs text-slate-400">Return to this portal and access your apps</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="blur-[1px] opacity-60 select-none">
+        <h2 class="text-xl font-semibold text-slate-300 mb-5">Applications</h2>
+        <div id="disconnected-app-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- STATE 4: Approved / Connected -->
+  <div id="view-connected" class="hidden min-h-screen flex flex-col">
+    <div id="connected-header-slot"></div>
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <h2 class="text-xl font-semibold text-slate-200 mb-5">Applications</h2>
+      <div id="connected-app-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal-container" class="hidden fixed inset-0 z-50">
+    <div class="modal-overlay fixed inset-0 flex items-center justify-center p-4">
+      <div class="glass-card rounded-2xl max-w-lg w-full max-h-[90vh] overflow-hidden fade-in">
+        <div class="p-6 border-b border-slate-700/50">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-600/20 to-cyan-600/20 border border-sky-500/20 flex items-center justify-center">
+                <i id="modal-icon" data-lucide="film" class="w-5 h-5 text-sky-400"></i>
+              </div>
+              <div>
+                <h3 id="modal-title" class="text-lg font-semibold text-white"></h3>
+                <p class="text-sm text-slate-400">Choose your viewing method</p>
+              </div>
+            </div>
+            <button id="btn-close-modal" class="p-2 rounded-lg hover:bg-slate-700/50 transition-colors">
+              <i data-lucide="x" class="w-5 h-5 text-slate-400"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="p-4">
+          <div class="flex gap-2 mb-4">
+            <button data-tab="browser" class="tab-btn flex-1 px-4 py-2 rounded-lg text-sm font-medium border border-slate-700/50 hover:bg-slate-700/30 transition-colors tab-active text-sky-400">
+              <i data-lucide="monitor" class="w-4 h-4 inline mr-2"></i>Browser
+            </button>
+            <button data-tab="tv" class="tab-btn flex-1 px-4 py-2 rounded-lg text-sm font-medium border border-slate-700/50 hover:bg-slate-700/30 transition-colors text-slate-400">
+              <i data-lucide="tv-2" class="w-4 h-4 inline mr-2"></i>Smart TV
+            </button>
+            <button data-tab="mobile" class="tab-btn flex-1 px-4 py-2 rounded-lg text-sm font-medium border border-slate-700/50 hover:bg-slate-700/30 transition-colors text-slate-400">
+              <i data-lucide="smartphone" class="w-4 h-4 inline mr-2"></i>Mobile
+            </button>
+          </div>
+
+          <div id="tab-browser" class="tab-content">
+            <div class="p-4 rounded-xl bg-slate-800/30 text-center">
+              <p id="browser-desc" class="text-sm text-slate-400 mb-4"></p>
+              <a id="browser-launch-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-lg text-white font-medium">
+                <i data-lucide="external-link" class="w-4 h-4"></i>
+                Launch in New Tab
+              </a>
+            </div>
+          </div>
+
+          <div id="tab-tv" class="tab-content hidden">
+            <div class="space-y-3">
+              <div class="p-3 rounded-lg bg-slate-800/30 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-xs font-bold text-sky-400 flex-shrink-0">1</span>
+                <div>
+                  <p class="text-sm font-medium text-slate-200">Install Tailscale on TV</p>
+                  <p class="text-xs text-slate-400">Open your TV's App Store and install the official <span class="text-sky-400">Tailscale</span> client. Log in using your @smurfpandey.me account.</p>
+                </div>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-800/30 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-xs font-bold text-sky-400 flex-shrink-0">2</span>
+                <div>
+                  <p class="text-sm font-medium text-slate-200">Install the Client App</p>
+                  <p id="tv-client-name" class="text-xs text-slate-400"></p>
+                </div>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-800/30 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-xs font-bold text-sky-400 flex-shrink-0">3</span>
+                <div>
+                  <p class="text-sm font-medium text-slate-200">Configure & Connect</p>
+                  <p id="tv-server-url" class="text-xs text-slate-400"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="tab-mobile" class="tab-content hidden">
+            <div class="space-y-3">
+              <div class="p-3 rounded-lg bg-slate-800/30 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-xs font-bold text-sky-400 flex-shrink-0">1</span>
+                <div>
+                  <p class="text-sm font-medium text-slate-200">Install Tailscale</p>
+                  <p class="text-xs text-slate-400">Download <span class="text-sky-400">Tailscale</span> from the App Store (iOS) or Google Play (Android). Sign in via your Smurfville SSO identity.</p>
+                </div>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-800/30 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-xs font-bold text-sky-400 flex-shrink-0">2</span>
+                <div>
+                  <p class="text-sm font-medium text-slate-200">Download the Mobile Client</p>
+                  <p id="mobile-client-name" class="text-xs text-slate-400"></p>
+                </div>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-800/30 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-xs font-bold text-sky-400 flex-shrink-0">3</span>
+                <div>
+                  <p class="text-sm font-medium text-slate-200">Connect to Server</p>
+                  <p id="mobile-server-url" class="text-xs text-slate-400"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dev Sandbox -->
+  <div id="dev-sandbox" class="fixed bottom-4 right-4 z-40 glass rounded-xl p-4 shadow-2xl">
+    <div class="text-xs text-slate-400 mb-3 font-medium uppercase tracking-wider">Dev Sandbox</div>
+    <div class="space-y-3">
+      <div>
+        <label class="text-xs text-slate-500 block mb-1">User State</label>
+        <select id="state-selector" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500">
+          <option value="1">State 1: Logged Out</option>
+          <option value="2">State 2: Pending Approval</option>
+          <option value="3">State 3: Approved / TS Disconnected</option>
+          <option value="4">State 4: Approved / TS Connected</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-xs text-slate-500 block mb-1">User Role</label>
+        <select id="role-selector" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500">
+          <option value="friend">Friend</option>
+          <option value="family">Family</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <div class="pt-2 border-t border-slate-700">
+        <div class="text-xs text-slate-500">Current: <span id="current-state-display" class="text-sky-400">-</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
