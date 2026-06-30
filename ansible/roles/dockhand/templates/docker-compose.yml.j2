@@ -12,6 +12,7 @@ services:
       - "{{ dockhand_docker_gid }}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /opt:/opt
       - {{ dockhand_data_directory }}:/app/data
     networks:
       - {{ traefik_network_name }}

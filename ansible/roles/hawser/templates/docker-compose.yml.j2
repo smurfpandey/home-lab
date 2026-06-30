@@ -11,6 +11,7 @@ services:
       - "{{ hawser_docker_gid }}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /opt:/opt
     environment:
       - PORT=2376
       - AGENT_NAME={{ hawser_agent_name }}

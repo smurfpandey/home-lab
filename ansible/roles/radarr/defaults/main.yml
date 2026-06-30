@@ -1,6 +1,5 @@
 ---
-
-radarr_app_directory: '{{ app_root }}/radarr'
-radarr_image_name: 'ghcr.io/linuxserver/radarr'
-radarr_image_tag: '6.1.1'
-radarr_service_name: 'radarr'
+radarr_app_directory: "{{ app_root }}/radarr"
+radarr_image_name: "ghcr.io/linuxserver/radarr"
+radarr_image_tag: "version-6.2.1.10461"
+radarr_service_name: "radarr"

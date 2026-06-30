@@ -1,6 +1,5 @@
 ---
-
-sonarr_app_directory: '{{ app_root }}/sonarr'
-sonarr_image_name: 'ghcr.io/linuxserver/sonarr'
-sonarr_image_tag: '4.0.17'
-sonarr_service_name: 'sonarr'
+sonarr_app_directory: "{{ app_root }}/sonarr"
+sonarr_image_name: "ghcr.io/linuxserver/sonarr"
+sonarr_image_tag: "version-4.0.18.2971"
+sonarr_service_name: "sonarr"

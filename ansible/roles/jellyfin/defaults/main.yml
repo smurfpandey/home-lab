@@ -1,6 +1,5 @@
 ---
-
-jellyfin_app_directory: '{{ app_root }}/jellyfin'
-jellyfin_image_name: 'ghcr.io/linuxserver/jellyfin'
-jellyfin_image_tag: '10.11.8'
-jellyfin_service_name: 'jellyfin'
+jellyfin_app_directory: "{{ app_root }}/jellyfin"
+jellyfin_image_name: "ghcr.io/linuxserver/jellyfin"
+jellyfin_image_tag: "10.11.11"
+jellyfin_service_name: "jellyfin"

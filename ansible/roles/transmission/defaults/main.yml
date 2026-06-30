@@ -1,10 +1,9 @@
 ---
-
-transmission_app_directory: '{{ app_root }}/transmission'
-transmission_data_directory: '{{ data_root }}/transmission'
-transmission_image_name: 'ghcr.io/linuxserver/transmission'
-transmission_image_tag: '4.1.1'
-transmission_service_name: 'transmission'
+transmission_app_directory: "{{ app_root }}/transmission"
+transmission_data_directory: "{{ data_root }}/transmission"
+transmission_image_name: "ghcr.io/linuxserver/transmission"
+transmission_image_tag: "version-4.1.2-r0"
+transmission_service_name: "transmission"
 transmission_hdd_download_root: /mnt/mediahub/data/torrents
 transmission_container_download_root: /data/torrents
 transmission_config_enable_watch_dir: "false"
